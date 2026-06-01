@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Liquid Glass Music</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body{margin:0;font-family:-apple-system,sans-serif;background:#08111f;color:#fff}
+.hero{padding:24px}.glass{background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border-radius:24px;padding:16px}
+input{width:100%;padding:14px;border-radius:16px;border:0}
+#results{display:grid;gap:10px;margin-top:15px}
+.card{display:flex;gap:12px;padding:10px;background:rgba(255,255,255,.08);border-radius:16px;cursor:pointer}
+.card img{width:64px;height:64px;border-radius:12px}
+.player{position:fixed;left:10px;right:10px;bottom:10px;padding:16px;border-radius:24px;background:rgba(255,255,255,.1);backdrop-filter:blur(20px)}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>✨ Liquid Glass Music</h1>
+<div class="glass">
+<input id="q" placeholder="Поиск музыки">
+<div id="results"></div>
+</div>
+</div>
+<div class="player">
+<button onclick="toggle()">▶ / ❚❚</button>
+<span id="now">Ничего не играет</span>
+<audio id="audio"></audio>
+</div>
+<script>
+const q=document.getElementById('q'),r=document.getElementById('results'),a=document.getElementById('audio');
+q.oninput=async()=>{
+ if(q.value.length<2)return;
+ const u='https://cors.isomorphic-git.org/https://api.deezer.com/search?q='+encodeURIComponent(q.value);
+ const d=await fetch(u).then(x=>x.json()).catch(()=>({data:[]}));
+ r.innerHTML='';
+ (d.data||[]).slice(0,20).forEach(t=>{
+  const e=document.createElement('div');
+  e.className='card';
+  e.innerHTML=`<img src="${t.album.cover_medium}"><div>${t.title}<br><small>${t.artist.name}</small></div>`;
+  e.onclick=()=>{a.src=t.preview;a.play();now.textContent=t.title+' — '+t.artist.name};
+  r.appendChild(e);
+ });
+};
+function toggle(){ if(a.paused)a.play(); else a.pause();}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
+</script>
+</body></html>
