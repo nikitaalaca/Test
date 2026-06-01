@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hair AI • Liquid</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hair AI</title>
 
 <style>
 *{
@@ -19,20 +19,19 @@ padding:20px 20px 140px;
 display:flex;
 justify-content:center;
 background:
-radial-gradient(circle at 20% 20%, #2575ff55, transparent 25%),
-radial-gradient(circle at 80% 80%, #8c38ff55, transparent 30%),
+radial-gradient(circle at 20% 20%,#2a73ff55,transparent 25%),
+radial-gradient(circle at 80% 80%,#8c3fff55,transparent 30%),
 #07101d;
 color:white;
 }
 
 .card{
 width:100%;
-max-width:680px;
+max-width:700px;
 padding:28px;
-border-radius:38px;
+border-radius:40px;
 background:rgba(255,255,255,.08);
 backdrop-filter:blur(35px);
--webkit-backdrop-filter:blur(35px);
 border:1px solid rgba(255,255,255,.08);
 box-shadow:0 12px 45px rgba(0,0,0,.35);
 }
@@ -41,14 +40,12 @@ box-shadow:0 12px 45px rgba(0,0,0,.35);
 font-size:48px;
 font-weight:800;
 text-align:center;
-margin-bottom:6px;
 }
 
 .sub{
 text-align:center;
 opacity:.8;
-margin-bottom:22px;
-font-size:18px;
+margin:8px 0 22px;
 }
 
 .upload{
@@ -58,13 +55,15 @@ align-items:center;
 padding:22px;
 border-radius:28px;
 background:rgba(255,255,255,.08);
-cursor:pointer;
 font-size:22px;
 font-weight:700;
-margin-bottom:16px;
+cursor:pointer;
+margin-bottom:18px;
 }
 
-input{display:none;}
+input{
+display:none;
+}
 
 button{
 width:100%;
@@ -78,16 +77,11 @@ font-weight:800;
 cursor:pointer;
 }
 
-button:disabled{
-opacity:.55;
-cursor:not-allowed;
-}
-
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:14px;
-margin-top:20px;
+margin-top:22px;
 }
 
 .box{
@@ -97,9 +91,9 @@ background:rgba(255,255,255,.05);
 }
 
 .boxTitle{
-font-size:13px;
-opacity:.7;
 text-align:center;
+opacity:.7;
+font-size:13px;
 margin-bottom:8px;
 }
 
@@ -121,17 +115,16 @@ animation:spin 1s linear infinite;
 }
 
 @keyframes spin{
-100%{transform:rotate(360deg);}
+100%{
+transform:rotate(360deg);
+}
 }
 
 .status{
-margin-top:16px;
 text-align:center;
-font-size:17px;
+margin-top:18px;
 min-height:24px;
 }
-
-/* LIQUID BAR */
 
 .liquidBar{
 position:fixed;
@@ -142,15 +135,11 @@ width:min(94%,560px);
 height:92px;
 border-radius:44px;
 background:rgba(20,20,30,.55);
-backdrop-filter:blur(36px);
-border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(35px);
 display:flex;
 justify-content:space-around;
 align-items:center;
 overflow:hidden;
-box-shadow:
-0 12px 40px rgba(0,0,0,.45),
-inset 0 1px 0 rgba(255,255,255,.08);
 }
 
 .pill{
@@ -159,16 +148,8 @@ left:10px;
 width:108px;
 height:72px;
 border-radius:34px;
-background:linear-gradient(
-145deg,
-rgba(255,255,255,.18),
-rgba(255,255,255,.04)
-);
-backdrop-filter:blur(28px);
-transition:.35s cubic-bezier(.2,.9,.2,1);
-box-shadow:
-inset 0 1px 2px rgba(255,255,255,.3),
-0 0 25px rgba(80,130,255,.3);
+background:rgba(255,255,255,.14);
+transition:.35s;
 }
 
 .tab{
@@ -185,7 +166,6 @@ cursor:pointer;
 
 .tab span{
 font-size:13px;
-font-weight:700;
 }
 </style>
 </head>
@@ -194,33 +174,35 @@ font-weight:700;
 <div class="card">
 
 <div class="logo">✨ Hair AI</div>
-<div class="sub">Liquid Glass Hair Edit</div>
+<div class="sub">Liquid Hair Edit</div>
 
 <label class="upload">
 📷 Загрузить фото
 <input id="file" type="file" accept="image/*">
 </label>
 
-<button id="btn">Сменить причёску</button>
+<button id="btn">
+Сменить причёску
+</button>
 
 <div class="loader" id="loader"></div>
 
 <div class="grid">
 
 <div class="box">
-<div class="boxTitle">ТВОЁ ФОТО</div>
+<div class="boxTitle">PHOTO</div>
 <img id="preview">
 </div>
 
 <div class="box">
-<div class="boxTitle">AI RESULT</div>
+<div class="boxTitle">RESULT</div>
 <img id="result">
 </div>
 
 </div>
 
 <div class="status" id="status">
-Выбери стиль и загрузи фото
+Готово
 </div>
 
 </div>
@@ -238,15 +220,16 @@ font-weight:700;
 
 <script>
 
-const TOKEN = "PASTE_REPLICATE_TOKEN_HERE";
+const WORKER_URL =
+"PASTE_WORKER_URL_HERE";
 
 let imageFile=null;
 let style="fade";
 
 const preview=document.getElementById("preview");
 const result=document.getElementById("result");
-const status=document.getElementById("status");
 const loader=document.getElementById("loader");
+const status=document.getElementById("status");
 const btn=document.getElementById("btn");
 const pill=document.getElementById("pill");
 
@@ -254,10 +237,10 @@ document.getElementById("file").onchange=e=>{
 
 imageFile=e.target.files[0];
 
-preview.src=URL.createObjectURL(imageFile);
-preview.style.display="block";
+preview.src=
+URL.createObjectURL(imageFile);
 
-status.innerText="Фото загружено";
+preview.style.display="block";
 
 };
 
@@ -266,26 +249,17 @@ document.querySelectorAll(".tab")
 
 tab.onclick=()=>{
 
-pill.style.left=(10+i*25)+"%";
-style=tab.dataset.style;
+pill.style.left=
+(10+i*25)+"%";
 
-status.innerText="Стиль: "+style;
+style=
+tab.dataset.style;
 
 };
 
 });
 
-btn.onclick=generate;
-
-async function fileToBase64(file){
-return new Promise((resolve)=>{
-const reader=new FileReader();
-reader.onload=()=>resolve(reader.result);
-reader.readAsDataURL(file);
-});
-}
-
-async function generate(){
+btn.onclick=async()=>{
 
 if(!imageFile){
 alert("Загрузи фото");
@@ -293,88 +267,60 @@ return;
 }
 
 loader.style.display="block";
-btn.disabled=true;
-status.innerText="AI меняет волосы...";
+status.innerText=
+"AI меняет волосы...";
 
 try{
 
-const img64=await fileToBase64(imageFile);
+const b64=
+await toBase64(imageFile);
 
-const create=await fetch(
-"https://api.replicate.com/v1/predictions",
-{
+const res=
+await fetch(WORKER_URL,{
 method:"POST",
 headers:{
-"Authorization":"Token "+TOKEN,
-"Content-Type":"application/json"
+"Content-Type":
+"application/json"
 },
 body:JSON.stringify({
-version:"48f03523665cabe9a2e832ea9cc2d7c30ad5079cb5f1c1f07890d40596fe1f87",
+version:
+"48f03523665cabe9a2e832ea9cc2d7c30ad5079cb5f1c1f07890d40596fe1f87",
 input:{
-input_image:img64,
-haircut:style,
-aspect_ratio:"match_input_image",
-output_format:"png"
+input_image:b64,
+haircut:style
 }
 })
 });
 
-const pred=await create.json();
+const data=
+await res.json();
 
-if(pred.error){
-throw new Error(pred.error);
-}
-
-let output=null;
-let id=pred.id;
-
-while(!output){
-
-await new Promise(r=>setTimeout(r,2500));
-
-const poll=await fetch(
-"https://api.replicate.com/v1/predictions/"+id,
-{
-headers:{
-"Authorization":"Token "+TOKEN
-}
-});
-
-const data=await poll.json();
-
-if(data.status==="succeeded"){
-output=data.output;
-break;
-}
-
-if(data.status==="failed"){
-throw new Error("Prediction failed");
-}
+console.log(data);
 
 status.innerText=
-"Генерация... "+data.status;
+"Запрос отправлен";
 
-}
+}catch(e){
 
-result.src=output;
-result.style.display="block";
-
-status.innerText="Готово ✨";
-
-}catch(err){
-
-console.log(err);
-
-status.innerText =
-"API: " + err.message;
-
-alert(err.message);
+status.innerText=
+e.message;
 
 }
 
 loader.style.display="none";
-btn.disabled=false;
 
+};
+
+function toBase64(file){
+return new Promise(r=>{
+const rd=
+new FileReader();
+
+rd.onload=
+()=>r(rd.result);
+
+rd.readAsDataURL(file);
+});
 }
 
 </script>
