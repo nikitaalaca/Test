@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hair AI FLUX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hair AI • Liquid</title>
 
 <style>
 *{
@@ -19,35 +19,36 @@ padding:20px 20px 140px;
 display:flex;
 justify-content:center;
 background:
-radial-gradient(circle at 15% 20%,#2b6dff55,transparent 25%),
-radial-gradient(circle at 85% 85%,#7c3fff70,transparent 30%),
-#050c17;
+radial-gradient(circle at 20% 20%, #2575ff55, transparent 25%),
+radial-gradient(circle at 80% 80%, #8c38ff55, transparent 30%),
+#07101d;
 color:white;
 }
 
 .card{
 width:100%;
-max-width:650px;
-padding:30px;
+max-width:680px;
+padding:28px;
 border-radius:38px;
 background:rgba(255,255,255,.08);
-backdrop-filter:blur(40px);
-border:1px solid rgba(255,255,255,.1);
-box-shadow:0 15px 45px rgba(0,0,0,.35);
+backdrop-filter:blur(35px);
+-webkit-backdrop-filter:blur(35px);
+border:1px solid rgba(255,255,255,.08);
+box-shadow:0 12px 45px rgba(0,0,0,.35);
 }
 
 .logo{
-font-size:52px;
+font-size:48px;
 font-weight:800;
 text-align:center;
-margin-bottom:8px;
+margin-bottom:6px;
 }
 
 .sub{
 text-align:center;
 opacity:.8;
-font-size:20px;
-margin-bottom:24px;
+margin-bottom:22px;
+font-size:18px;
 }
 
 .upload{
@@ -55,49 +56,48 @@ display:flex;
 justify-content:center;
 align-items:center;
 padding:22px;
-font-size:23px;
-font-weight:700;
-border-radius:30px;
+border-radius:28px;
 background:rgba(255,255,255,.08);
 cursor:pointer;
-margin-bottom:18px;
+font-size:22px;
+font-weight:700;
+margin-bottom:16px;
 }
 
-input{
-display:none;
-}
+input{display:none;}
 
 button{
 width:100%;
-padding:22px;
+padding:20px;
 border:none;
-border-radius:30px;
-font-size:24px;
-font-weight:800;
+border-radius:28px;
 background:rgba(255,255,255,.12);
 color:white;
+font-size:22px;
+font-weight:800;
 cursor:pointer;
 }
 
 button:disabled{
-opacity:.5;
+opacity:.55;
+cursor:not-allowed;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:14px;
-margin-top:22px;
+margin-top:20px;
 }
 
 .box{
-padding:12px;
-border-radius:24px;
+padding:10px;
+border-radius:22px;
 background:rgba(255,255,255,.05);
 }
 
-.title{
-font-size:14px;
+.boxTitle{
+font-size:13px;
 opacity:.7;
 text-align:center;
 margin-bottom:8px;
@@ -111,10 +111,10 @@ display:none;
 
 .loader{
 display:none;
-width:38px;
-height:38px;
-margin:20px auto;
-border:3px solid rgba(255,255,255,.2);
+width:36px;
+height:36px;
+margin:18px auto;
+border:3px solid rgba(255,255,255,.15);
 border-top:3px solid white;
 border-radius:50%;
 animation:spin 1s linear infinite;
@@ -125,7 +125,7 @@ animation:spin 1s linear infinite;
 }
 
 .status{
-margin-top:18px;
+margin-top:16px;
 text-align:center;
 font-size:17px;
 min-height:24px;
@@ -136,13 +136,13 @@ min-height:24px;
 .liquidBar{
 position:fixed;
 left:50%;
-bottom:20px;
+bottom:18px;
 transform:translateX(-50%);
 width:min(94%,560px);
 height:92px;
 border-radius:44px;
 background:rgba(20,20,30,.55);
-backdrop-filter:blur(35px);
+backdrop-filter:blur(36px);
 border:1px solid rgba(255,255,255,.08);
 display:flex;
 justify-content:space-around;
@@ -159,15 +159,16 @@ left:10px;
 width:108px;
 height:72px;
 border-radius:34px;
-background:
-linear-gradient(145deg,
-rgba(255,255,255,.16),
-rgba(255,255,255,.04));
-backdrop-filter:blur(30px);
+background:linear-gradient(
+145deg,
+rgba(255,255,255,.18),
+rgba(255,255,255,.04)
+);
+backdrop-filter:blur(28px);
 transition:.35s cubic-bezier(.2,.9,.2,1);
 box-shadow:
 inset 0 1px 2px rgba(255,255,255,.3),
-0 0 25px rgba(100,130,255,.35);
+0 0 25px rgba(80,130,255,.3);
 }
 
 .tab{
@@ -178,8 +179,8 @@ display:flex;
 flex-direction:column;
 align-items:center;
 gap:4px;
+font-size:28px;
 cursor:pointer;
-font-size:30px;
 }
 
 .tab span{
@@ -193,33 +194,33 @@ font-weight:700;
 <div class="card">
 
 <div class="logo">✨ Hair AI</div>
-<div class="sub">FLUX Liquid Glass</div>
+<div class="sub">Liquid Glass Hair Edit</div>
 
 <label class="upload">
 📷 Загрузить фото
 <input id="file" type="file" accept="image/*">
 </label>
 
-<button id="btn">Создать</button>
+<button id="btn">Сменить причёску</button>
 
 <div class="loader" id="loader"></div>
 
 <div class="grid">
 
 <div class="box">
-<div class="title">PHOTO</div>
+<div class="boxTitle">ТВОЁ ФОТО</div>
 <img id="preview">
 </div>
 
 <div class="box">
-<div class="title">AI</div>
+<div class="boxTitle">AI RESULT</div>
 <img id="result">
 </div>
 
 </div>
 
 <div class="status" id="status">
-Готов к работе
+Выбери стиль и загрузи фото
 </div>
 
 </div>
@@ -228,35 +229,36 @@ font-weight:700;
 
 <div class="pill" id="pill"></div>
 
-<div class="tab" data-style="low fade haircut">✂️<span>Fade</span></div>
-<div class="tab" data-style="quiff hairstyle">🔥<span>Quiff</span></div>
-<div class="tab" data-style="french crop haircut">⚡<span>Crop</span></div>
-<div class="tab" data-style="side part hairstyle">💎<span>Side</span></div>
+<div class="tab" data-style="fade">✂️<span>Fade</span></div>
+<div class="tab" data-style="quiff">🔥<span>Quiff</span></div>
+<div class="tab" data-style="crop">⚡<span>Crop</span></div>
+<div class="tab" data-style="side part">💎<span>Side</span></div>
 
 </div>
 
 <script>
 
-const HF_TOKEN="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";
+const TOKEN = "PASTE_REPLICATE_TOKEN_HERE";
 
-const API=
-"https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-dev";
-
-let style="low fade haircut";
-let file=null;
+let imageFile=null;
+let style="fade";
 
 const preview=document.getElementById("preview");
 const result=document.getElementById("result");
-const loader=document.getElementById("loader");
 const status=document.getElementById("status");
+const loader=document.getElementById("loader");
 const btn=document.getElementById("btn");
 const pill=document.getElementById("pill");
 
 document.getElementById("file").onchange=e=>{
-file=e.target.files[0];
-preview.src=URL.createObjectURL(file);
+
+imageFile=e.target.files[0];
+
+preview.src=URL.createObjectURL(imageFile);
 preview.style.display="block";
+
 status.innerText="Фото загружено";
+
 };
 
 document.querySelectorAll(".tab")
@@ -267,8 +269,7 @@ tab.onclick=()=>{
 pill.style.left=(10+i*25)+"%";
 style=tab.dataset.style;
 
-status.innerText=
-"Стиль: "+tab.innerText.trim();
+status.innerText="Стиль: "+style;
 
 };
 
@@ -276,70 +277,94 @@ status.innerText=
 
 btn.onclick=generate;
 
+async function fileToBase64(file){
+return new Promise((resolve)=>{
+const reader=new FileReader();
+reader.onload=()=>resolve(reader.result);
+reader.readAsDataURL(file);
+});
+}
+
 async function generate(){
+
+if(!imageFile){
+alert("Загрузи фото");
+return;
+}
 
 loader.style.display="block";
 btn.disabled=true;
-
-status.innerText=
-"FLUX генерирует...";
+status.innerText="AI меняет волосы...";
 
 try{
 
-const prompt=
-`ultra realistic portrait,
-${style},
-modern hairstyle,
-barber haircut,
-photorealistic,
-high quality`;
+const img64=await fileToBase64(imageFile);
 
-const response=
-await fetch(API,{
+const create=await fetch(
+"https://api.replicate.com/v1/predictions",
+{
 method:"POST",
 headers:{
-Authorization:
-"Bearer "+HF_TOKEN,
-"Content-Type":
-"application/json"
+"Authorization":"Token "+TOKEN,
+"Content-Type":"application/json"
 },
 body:JSON.stringify({
-inputs:prompt,
-parameters:{
-num_inference_steps:28
-},
-options:{
-wait_for_model:true
+version:"48f03523665cabe9a2e832ea9cc2d7c30ad5079cb5f1c1f07890d40596fe1f87",
+input:{
+input_image:img64,
+haircut:style,
+aspect_ratio:"match_input_image",
+output_format:"png"
 }
 })
 });
 
-if(!response.ok){
+const pred=await create.json();
 
-const txt=
-await response.text();
-
-throw new Error(txt);
+if(pred.error){
+throw new Error(pred.error);
 }
 
-const blob=
-await response.blob();
+let output=null;
+let id=pred.id;
 
-result.src=
-URL.createObjectURL(blob);
+while(!output){
 
-result.style.display=
-"block";
+await new Promise(r=>setTimeout(r,2500));
+
+const poll=await fetch(
+"https://api.replicate.com/v1/predictions/"+id,
+{
+headers:{
+"Authorization":"Token "+TOKEN
+}
+});
+
+const data=await poll.json();
+
+if(data.status==="succeeded"){
+output=data.output;
+break;
+}
+
+if(data.status==="failed"){
+throw new Error("Prediction failed");
+}
 
 status.innerText=
-"Готово ✨";
+"Генерация... "+data.status;
 
-}catch(e){
+}
 
-console.log(e);
+result.src=output;
+result.style.display="block";
 
-status.innerText=
-"FLUX недоступен / лимит / токен";
+status.innerText="Готово ✨";
+
+}catch(err){
+
+console.log(err);
+status.innerText="Ошибка API";
 
 }
 
@@ -349,6 +374,5 @@ btn.disabled=false;
 }
 
 </script>
-
 </body>
 </html>
