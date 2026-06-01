@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hair AI v3</title>
+<title>Hair AI Liquid</title>
 
 <style>
 *{
@@ -15,26 +15,26 @@ font-family:-apple-system,BlinkMacSystemFont,sans-serif;
 
 body{
 min-height:100vh;
-padding:24px;
+padding:20px 20px 140px;
 display:flex;
 justify-content:center;
 background:
-radial-gradient(circle at 15% 20%,#1266ff60,transparent 25%),
-radial-gradient(circle at 80% 85%,#8a2dff70,transparent 25%),
-#050d1a;
+radial-gradient(circle at 15% 20%,#1266ff55,transparent 25%),
+radial-gradient(circle at 80% 85%,#8d32ff70,transparent 30%),
+#040b17;
 color:white;
 }
 
 .card{
 width:100%;
 max-width:650px;
-padding:28px;
-border-radius:36px;
+padding:30px;
+border-radius:38px;
 background:rgba(255,255,255,.08);
-border:1px solid rgba(255,255,255,.12);
-backdrop-filter:blur(35px);
--webkit-backdrop-filter:blur(35px);
-box-shadow:0 10px 45px rgba(0,0,0,.35);
+backdrop-filter:blur(38px);
+-webkit-backdrop-filter:blur(38px);
+border:1px solid rgba(255,255,255,.1);
+box-shadow:0 15px 45px rgba(0,0,0,.35);
 }
 
 .logo{
@@ -46,9 +46,9 @@ margin-bottom:8px;
 
 .sub{
 text-align:center;
-opacity:.8;
+opacity:.85;
 font-size:20px;
-margin-bottom:28px;
+margin-bottom:25px;
 }
 
 .upload{
@@ -56,10 +56,11 @@ display:flex;
 justify-content:center;
 align-items:center;
 padding:22px;
-border-radius:28px;
-background:rgba(255,255,255,.08);
 font-size:24px;
 font-weight:700;
+border-radius:30px;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.08);
 cursor:pointer;
 margin-bottom:18px;
 }
@@ -68,38 +69,16 @@ input{
 display:none;
 }
 
-.styles{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-bottom:20px;
-}
-
-.style{
-padding:16px;
-border-radius:20px;
-background:rgba(255,255,255,.07);
-border:1px solid transparent;
-cursor:pointer;
-text-align:center;
-transition:.2s;
-}
-
-.style.active{
-border:1px solid #7e9fff;
-background:rgba(126,159,255,.18);
-}
-
 button{
 width:100%;
 padding:22px;
 border:none;
-border-radius:28px;
+border-radius:30px;
 font-size:24px;
 font-weight:800;
-cursor:pointer;
 background:rgba(255,255,255,.12);
 color:white;
+cursor:pointer;
 }
 
 button:disabled{
@@ -109,21 +88,22 @@ opacity:.5;
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:16px;
-margin-top:25px;
+gap:14px;
+margin-top:24px;
 }
 
 .box{
 padding:12px;
 border-radius:24px;
 background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.06);
 }
 
 .title{
 font-size:14px;
 opacity:.7;
-margin-bottom:8px;
 text-align:center;
+margin-bottom:8px;
 }
 
 img{
@@ -151,7 +131,67 @@ animation:spin 1s linear infinite;
 margin-top:18px;
 text-align:center;
 font-size:18px;
-min-height:26px;
+min-height:25px;
+}
+
+/* LIQUID BAR */
+
+.liquidBar{
+position:fixed;
+left:50%;
+bottom:18px;
+transform:translateX(-50%);
+width:min(94%,560px);
+height:92px;
+border-radius:44px;
+background:rgba(20,20,30,.55);
+backdrop-filter:blur(35px);
+-webkit-backdrop-filter:blur(35px);
+border:1px solid rgba(255,255,255,.08);
+display:flex;
+justify-content:space-around;
+align-items:center;
+overflow:hidden;
+z-index:999;
+box-shadow:
+0 12px 40px rgba(0,0,0,.45),
+inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.pill{
+position:absolute;
+width:108px;
+height:72px;
+border-radius:34px;
+background:
+linear-gradient(145deg,
+rgba(255,255,255,.16),
+rgba(255,255,255,.03));
+backdrop-filter:blur(28px);
+box-shadow:
+inset 0 1px 2px rgba(255,255,255,.3),
+0 0 25px rgba(70,130,255,.35);
+left:10px;
+transition:.35s cubic-bezier(.2,.9,.2,1);
+}
+
+.tab{
+position:relative;
+z-index:2;
+width:25%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+font-size:30px;
+cursor:pointer;
+gap:4px;
+}
+
+.tab span{
+font-size:13px;
+font-weight:700;
+opacity:.9;
 }
 </style>
 </head>
@@ -160,34 +200,14 @@ min-height:26px;
 <div class="card">
 
 <div class="logo">✨ Hair AI</div>
-<div class="sub">AI подбор причёски</div>
+<div class="sub">Liquid Glass AI подбор причёски</div>
 
 <label class="upload">
 📷 Загрузить фото
 <input id="file" type="file" accept="image/*">
 </label>
 
-<div class="styles">
-
-<div class="style active" data-style="low fade textured haircut">
-Low Fade
-</div>
-
-<div class="style" data-style="quiff hairstyle volume">
-Quiff
-</div>
-
-<div class="style" data-style="french crop haircut">
-French Crop
-</div>
-
-<div class="style" data-style="side part hairstyle">
-Side Part
-</div>
-
-</div>
-
-<button id="btn">Подобрать причёску</button>
+<button id="btn">Подобрать</button>
 
 <div class="loader" id="loader"></div>
 
@@ -206,7 +226,37 @@ Side Part
 </div>
 
 <div class="status" id="status">
-Готов к работе
+Выбери стиль и загрузи фото
+</div>
+
+</div>
+
+<div class="liquidBar">
+
+<div class="pill" id="pill"></div>
+
+<div class="tab active"
+data-style="low fade haircut">
+✂️
+<span>Fade</span>
+</div>
+
+<div class="tab"
+data-style="quiff hairstyle">
+🔥
+<span>Quiff</span>
+</div>
+
+<div class="tab"
+data-style="french crop haircut">
+⚡
+<span>Crop</span>
+</div>
+
+<div class="tab"
+data-style="side part hairstyle">
+💎
+<span>Side</span>
 </div>
 
 </div>
@@ -219,33 +269,39 @@ const MODEL=
 "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1";
 
 let file=null;
-let style="low fade textured haircut";
+let style="low fade haircut";
 
 const preview=document.getElementById("preview");
 const result=document.getElementById("result");
 const status=document.getElementById("status");
 const loader=document.getElementById("loader");
 const btn=document.getElementById("btn");
+const pill=document.getElementById("pill");
 
 document.getElementById("file").onchange=e=>{
+
 file=e.target.files[0];
 
 preview.src=URL.createObjectURL(file);
 preview.style.display="block";
 
 status.innerText="Фото загружено";
+
 };
 
-document.querySelectorAll(".style").forEach(el=>{
+document.querySelectorAll(".tab")
+.forEach((tab,index)=>{
 
-el.onclick=()=>{
+tab.onclick=()=>{
 
-document.querySelectorAll(".style")
-.forEach(x=>x.classList.remove("active"));
+pill.style.left=
+(10+(index*25))+"%";
 
-el.classList.add("active");
+style=tab.dataset.style;
 
-style=el.dataset.style;
+status.innerText=
+"Выбран: "+tab.innerText.trim();
+
 };
 
 });
@@ -259,26 +315,29 @@ alert("Загрузи фото");
 return;
 }
 
-btn.disabled=true;
 loader.style.display="block";
-status.innerText="AI создаёт причёску...";
+btn.disabled=true;
+
+status.innerText=
+"AI создаёт причёску...";
 
 try{
 
 const prompt=
-`portrait man, realistic ${style},
-barber hairstyle,
-keep same face,
+`realistic portrait male,
+${style},
+modern haircut,
 photorealistic,
-high quality`;
+high detail`;
 
-const response=await fetch(
-MODEL,
-{
+const response=
+await fetch(MODEL,{
 method:"POST",
 headers:{
-Authorization:"Bearer "+HF_TOKEN,
-"Content-Type":"application/json"
+Authorization:
+"Bearer "+HF_TOKEN,
+"Content-Type":
+"application/json"
 },
 body:JSON.stringify({
 inputs:prompt,
@@ -290,28 +349,35 @@ wait_for_model:true
 
 if(!response.ok){
 
-const txt=await response.text();
+const txt=
+await response.text();
+
 throw new Error(txt);
 }
 
-const blob=await response.blob();
+const blob=
+await response.blob();
 
-result.src=URL.createObjectURL(blob);
-result.style.display="block";
+result.src=
+URL.createObjectURL(blob);
 
-status.innerText="Готово ✨";
+result.style.display=
+"block";
+
+status.innerText=
+"Готово ✨";
 
 }catch(e){
 
 console.log(e);
-status.innerText="Ошибка HF / лимит / токен";
 
-}finally{
+status.innerText=
+"HF: модель недоступна или лимит";
+
+}
 
 loader.style.display="none";
 btn.disabled=false;
-
-}
 
 }
 
