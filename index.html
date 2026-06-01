@@ -364,7 +364,11 @@ status.innerText="Готово ✨";
 }catch(err){
 
 console.log(err);
-status.innerText="Ошибка API";
+
+status.innerText =
+"API: " + err.message;
+
+alert(err.message);
 
 }
 
