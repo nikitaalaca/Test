@@ -1,1375 +1,196 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-
-<meta charset="UTF-8"/>
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-/>
-
-<meta
-name="apple-mobile-web-app-capable"
-content="yes"
-/>
-
-<meta
-name="apple-mobile-web-app-status-bar-style"
-content="black-translucent"
-/>
-
-<meta
-name="theme-color"
-content="#050816"
-/>
-
-<title>CASH КАЛЬКУЛЯТОР</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hair AI</title>
 
 <style>
-
-@font-face{
-font-family:'SF Pro Display';
-src:local('SF Pro Display');
-}
-
-:root{
-
---glass:
-rgba(255,255,255,.07);
-
---border:
-rgba(255,255,255,.12);
-
---text:
-rgba(255,255,255,.96);
-
---sub:
-rgba(255,255,255,.52);
-
---shadow:
-0 20px 70px rgba(0,0,0,.45);
-
-}
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
--webkit-tap-highlight-color:transparent;
+font-family:-apple-system,BlinkMacSystemFont,sans-serif;
 }
 
 body{
-
-font-family:
-'SF Pro Display',
--apple-system,
-BlinkMacSystemFont,
-sans-serif;
-
 min-height:100vh;
-
-padding:
-max(18px, env(safe-area-inset-top))
-18px
-max(40px, env(safe-area-inset-bottom));
-
-background:
-linear-gradient(
-180deg,
-#020617,
-#081120,
-#0b1324
-);
-
-overflow-y:auto;
-
-position:relative;
-
 display:flex;
 justify-content:center;
-
-}
-
-body::before{
-
-content:'';
-
-position:fixed;
-inset:0;
-
-background:
-url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?q=80&w=1600&auto=format&fit=crop')
-center/cover;
-
-filter:
-blur(24px)
-brightness(.35)
-saturate(130%);
-
-transform:scale(1.08);
-
-z-index:-3;
-
-}
-
-body::after{
-
-content:'';
-
-position:fixed;
-inset:0;
-
-background:
-
-radial-gradient(
-circle at top,
-rgba(0,140,255,.14),
-transparent 30%
-),
-
-radial-gradient(
-circle at bottom,
-rgba(255,0,180,.12),
-transparent 35%
-),
-
-rgba(0,0,0,.28);
-
-z-index:-2;
-
-}
-
-.page{
-
-width:100%;
-max-width:430px;
-
-display:flex;
-flex-direction:column;
-
-gap:18px;
-
-}
-
-.panel{
-
-padding:22px;
-
-border-radius:42px;
-
-background:
-rgba(255,255,255,.06);
-
-backdrop-filter:
-blur(42px)
-saturate(180%);
-
--webkit-backdrop-filter:
-blur(42px)
-saturate(180%);
-
-border:
-1px solid rgba(255,255,255,.10);
-
-box-shadow:
-
-var(--shadow),
-
-inset 0 1px 1px
-rgba(255,255,255,.12);
-
-display:flex;
-flex-direction:column;
-
-gap:18px;
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-.panel::before{
-
-content:'';
-
-position:absolute;
-inset:0;
-
-background:
-linear-gradient(
-135deg,
-rgba(255,255,255,.10),
-transparent,
-rgba(255,255,255,.04)
-);
-
-pointer-events:none;
-
-}
-
-.title{
-
-font-size:30px;
-
-font-weight:700;
-
-letter-spacing:-1px;
-
-color:white;
-
-margin-bottom:6px;
-
-}
-
-.beta{
-opacity:.55;
-}
-
-.glass-block{
-
-padding:18px;
-
-border-radius:30px;
-
-background:
-rgba(255,255,255,.05);
-
-border:
-1px solid rgba(255,255,255,.08);
-
-backdrop-filter:
-blur(24px);
-
--webkit-backdrop-filter:
-blur(24px);
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-.glass-block::before{
-
-content:'';
-
-position:absolute;
-
-width:180px;
-height:180px;
-
-background:
-radial-gradient(
-circle,
-rgba(255,255,255,.08),
-transparent 70%
-);
-
-top:-90px;
-right:-90px;
-
-}
-
-.big,
-.kpi-label,
-.hours-col label{
-
-display:block;
-
-font-size:14px;
-
-font-weight:600;
-
-color:var(--sub);
-
-margin-bottom:12px;
-
-padding-left:2px;
-
-}
-
-select,
-input{
-
-width:100%;
-
-height:68px;
-
-border:none;
-
-outline:none;
-
-border-radius:24px;
-
-padding:0 18px;
-
-background:
-rgba(255,255,255,.06);
-
-border:
-1px solid rgba(255,255,255,.08);
-
-color:white;
-
-font-size:24px;
-
-font-weight:700;
-
-font-family:inherit;
-
-appearance:none;
-
--webkit-appearance:none;
-
-backdrop-filter:
-blur(20px);
-
--webkit-backdrop-filter:
-blur(20px);
-
-}
-
-input[type=range]{
-
-height:12px;
-
-padding:0;
-
-border-radius:999px;
-
-background:
-rgba(255,255,255,.12);
-
-}
-
-.hours-block{
-
-display:flex;
-flex-direction:column;
-gap:18px;
-
-}
-
-.hours-title{
-
-font-size:22px;
-font-weight:700;
-letter-spacing:-1px;
-color:white;
-
-}
-
-.hours-grid{
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr 1fr;
-
-gap:12px;
-
-}
-
-.hours-col{
-
-display:flex;
-flex-direction:column;
-gap:8px;
-
-}
-
-.hours-hint{
-
-font-size:12px;
-
-line-height:1.5;
-
-color:
-rgba(255,255,255,.38);
-
-}
-
-.kpi-title{
-
-font-size:24px;
-font-weight:700;
-letter-spacing:-1px;
-color:white;
-
-}
-
-.hint{
-
-font-size:13px;
-line-height:1.5;
-
-color:
-rgba(255,255,255,.42);
-
-margin-top:-10px;
-
-}
-
-.kpi-row{
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr;
-
-gap:14px;
-
-}
-
-.kpi-block{
-
-display:flex;
-flex-direction:column;
-gap:14px;
-
-}
-
-.kpi-inputs{
-
-display:flex;
-flex-direction:column;
-gap:12px;
-
-}
-
-.result-block{
-
-padding:24px;
-
-border-radius:34px;
-
-background:
-rgba(255,255,255,.05);
-
-border:
-1px solid rgba(255,255,255,.08);
-
-display:flex;
-flex-direction:column;
-gap:20px;
-
-backdrop-filter:
-blur(24px);
-
-}
-
-.result-row{
-
-display:flex;
-justify-content:space-between;
 align-items:center;
-
+background:
+radial-gradient(circle at 20% 20%, #0057ff55, transparent 35%),
+radial-gradient(circle at 80% 80%, #8b00ff55, transparent 35%),
+#0b1020;
+padding:20px;
 }
 
-.res-label{
-
-font-size:16px;
-
-font-weight:600;
-
-color:
-rgba(255,255,255,.58);
-
-}
-
-.res-val{
-
-font-size:21px;
-
-font-weight:700;
-
-letter-spacing:-.5px;
-
-color:white;
-
-}
-
-.total{
-
-padding-top:20px;
-
-border-top:
-1px solid rgba(255,255,255,.08);
-
-}
-
-.total .res-label,
-.total .res-val{
-
-font-size:34px;
-
-font-weight:800;
-
-letter-spacing:-1px;
-
-color:white;
-
-}
-
-.calc-btn{
-
+.card{
 width:100%;
-
-height:82px;
-
-border:none;
-
-border-radius:999px;
-
-cursor:pointer;
-
-background:
-linear-gradient(
-135deg,
-rgba(0,140,255,.30),
-rgba(170,0,255,.22)
-);
-
-backdrop-filter:
-blur(40px);
-
-color:white;
-
-font-size:28px;
-
-font-weight:700;
-
-letter-spacing:-1px;
-
-border:
-1px solid rgba(255,255,255,.16);
-
-box-shadow:
-
-0 0 30px rgba(0,140,255,.20),
-
-inset 0 1px 1px rgba(255,255,255,.18);
-
-}
-
-.slider-value{
-
-margin-top:10px;
-
-font-size:28px;
-
-font-weight:700;
-
-color:white;
-
+max-width:450px;
+padding:30px;
+border-radius:35px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(30px);
+-webkit-backdrop-filter:blur(30px);
+border:1px solid rgba(255,255,255,0.15);
+box-shadow:0 8px 40px rgba(0,0,0,.35);
 text-align:center;
-
+color:white;
 }
 
-#funBtn{
+h1{
+font-size:48px;
+margin-bottom:8px;
+}
 
-position:fixed;
+.sub{
+font-size:20px;
+opacity:.85;
+margin-bottom:25px;
+}
 
-right:22px;
-
-bottom:34px;
-
-width:68px;
-height:68px;
-
-border:none;
-
-border-radius:50%;
-
-background:
-rgba(255,255,255,.10);
-
-backdrop-filter:
-blur(30px)
-saturate(180%);
-
-border:
-1px solid rgba(255,255,255,.14);
-
-box-shadow:
-
-0 10px 40px rgba(0,0,0,.35),
-
-inset 0 1px 1px rgba(255,255,255,.18);
-
-color:white;
-
-font-size:38px;
-
-font-weight:300;
-
+.upload{
+display:block;
+padding:18px;
+border-radius:22px;
+background:rgba(255,255,255,.1);
+border:1px solid rgba(255,255,255,.15);
 cursor:pointer;
-
-z-index:999;
-
+margin-bottom:15px;
+font-size:20px;
 }
 
-#funPopup{
-
-position:fixed;
-
-left:50%;
-bottom:120px;
-
-transform:
-translateX(-50%)
-translateY(20px);
-
-padding:18px 26px;
-
-border-radius:28px;
-
-background:
-rgba(255,255,255,.10);
-
-backdrop-filter:
-blur(40px);
-
-border:
-1px solid rgba(255,255,255,.14);
-
-color:white;
-
-font-size:16px;
-
-font-weight:600;
-
-opacity:0;
-
-pointer-events:none;
-
-transition:.35s;
-
-z-index:998;
-
-}
-
-#funPopup.show{
-
-opacity:1;
-
-transform:
-translateX(-50%)
-translateY(0);
-
-}
-
-.footer-glass{
-
+button{
 width:100%;
-
-text-align:center;
-
-margin-top:22px;
-
-padding-bottom:
-max(10px, env(safe-area-inset-bottom));
-
-font-size:13px;
-
+padding:18px;
+border:none;
+border-radius:22px;
+font-size:22px;
 font-weight:600;
-
-color:
-rgba(255,255,255,.35);
-
+cursor:pointer;
+background:rgba(255,255,255,.14);
+color:white;
+backdrop-filter:blur(10px);
+transition:.2s;
 }
 
-@media(max-width:480px){
-
-.kpi-row{
-grid-template-columns:1fr;
+button:hover{
+transform:translateY(-2px);
 }
 
-.hours-grid{
-grid-template-columns:1fr;
+input{
+display:none;
 }
 
-.title{
-font-size:26px;
+img{
+margin-top:20px;
+max-width:100%;
+border-radius:22px;
+display:none;
 }
 
-.total .res-label,
-.total .res-val{
-font-size:26px;
+.status{
+margin-top:18px;
+opacity:.85;
+font-size:18px;
 }
-
-}
-
-
-/* V10 Apple slider + fixes */
-body::before{
-filter:blur(18px) brightness(.55) saturate(150%);
-}
-.panel{
-background:rgba(255,255,255,.075);
-backdrop-filter:blur(42px) saturate(190%);
-box-shadow:
-0 30px 80px rgba(0,0,0,.45),
-0 0 60px rgba(90,120,255,.10);
-}
-.glass-block,.result-block{
-box-shadow:
-0 10px 40px rgba(0,0,0,.25),
-0 0 28px rgba(120,120,255,.06);
-}
-
-/* Reveal */
-.reveal{
-opacity:0;
-filter:blur(14px);
-transform:translateY(45px) scale(.96);
-transition:
-opacity .8s cubic-bezier(.22,1,.36,1),
-transform .8s cubic-bezier(.22,1,.36,1),
-filter .8s ease;
-}
-.reveal.show{
-opacity:1;
-filter:none;
-transform:none;
-}
-
-/* Slider redesign */
-input[type=range]{
--webkit-appearance:none;
-appearance:none;
-height:16px;
-border:none!important;
-border-radius:999px;
-background:
-linear-gradient(90deg,
-rgba(0,170,255,.95),
-rgba(120,120,255,.92),
-rgba(180,120,255,.82));
-box-shadow:
-0 0 18px rgba(80,140,255,.16);
-overflow:visible;
-}
-input[type=range]::-webkit-slider-runnable-track{
-height:16px;
-border-radius:999px;
-background:
-linear-gradient(90deg,
-rgba(0,170,255,.95),
-rgba(120,120,255,.92),
-rgba(180,120,255,.82));
-}
-input[type=range]::-webkit-slider-thumb{
--webkit-appearance:none;
-width:36px;
-height:36px;
-margin-top:-10px;
-border-radius:50%;
-background:
-linear-gradient(180deg,#fff,#ececf4);
-border:1px solid rgba(255,255,255,.35);
-box-shadow:
-0 8px 24px rgba(0,0,0,.30),
-0 0 24px rgba(255,255,255,.22),
-0 0 30px rgba(120,120,255,.18);
-}
-#funBtn{
-right:18px;
-bottom:34px;
-}
-
-
-/* Ultra smooth motion v11 */
-.glass-block,
-.result-block,
-.calc-btn,
-.kpi-title,
-.hint{
-will-change:transform,opacity,filter;
-}
-
-.reveal{
-opacity:0;
-filter:blur(22px);
-transform:
-translateY(70px)
-scale(.92)
-translateZ(-60px);
-transition:
-opacity 1.15s cubic-bezier(.16,1,.3,1),
-transform 1.15s cubic-bezier(.16,1,.3,1),
-filter 1.15s cubic-bezier(.16,1,.3,1);
-}
-
-.reveal.show{
-opacity:1;
-filter:blur(0);
-transform:
-translateY(0)
-scale(1)
-translateZ(0);
-}
-
-.glass-block{
-transition:
-transform .55s cubic-bezier(.16,1,.3,1),
-box-shadow .45s ease,
-background .45s ease;
-}
-
-.glass-block:hover{
-transform:translateY(-4px) scale(1.01);
-}
-
-.calc-btn{
-transition:
-transform .22s cubic-bezier(.34,1.56,.64,1),
-box-shadow .35s ease;
-}
-.calc-btn:active{
-transform:scale(.965);
-}
-
-#funBtn{
-transition:
-transform .45s cubic-bezier(.22,1.4,.36,1),
-box-shadow .35s ease;
-}
-
-.slider-value,
-.res-val{
-transition:
-transform .35s cubic-bezier(.22,1,.36,1),
-opacity .35s ease;
-}
-
 </style>
-
 </head>
-
 <body>
 
-<div class="page">
+<div class="card">
 
-<div class="panel">
+<h1>✨ Hair AI</h1>
+<div class="sub">Бесплатный AI подбор причёски</div>
 
-<h1 class="title">
-CASH КАЛЬКУЛЯТОР
-
-</h1>
-
-<div class="glass-block">
-
-<label class="big">
-Ставка / час
+<label class="upload">
+📷 Загрузить фото
+<input type="file" id="file" accept="image/*">
 </label>
 
-<input
-type="range"
-id="rateSlider"
-min="100"
-max="500"
-value="250"
-/>
+<button onclick="generateHair()">Подобрать причёску</button>
 
-<div
-class="slider-value"
-id="rateValue"
->
-250 ₽
+<img id="preview">
+<img id="result">
+
+<div class="status" id="status">
+Загрузка AI модели...
 </div>
 
-</div>
-
-<div class="glass-block">
-
-<label class="big">
-Премия
-</label>
-
-<input
-type="range"
-id="premiumSlider"
-min="100"
-max="500"
-value="250"
-/>
-
-<div
-class="slider-value"
-id="premiumValue"
->
-250 ₽
-</div>
-
-</div>
-
-<div class="glass-block">
-
-<label class="big">
-Формат точки
-</label>
-
-<select id="format">
-
-<option value="BR">
-BR
-</option>
-
-<option value="MAU">
-MAU
-</option>
-
-</select>
-
-</div>
-
-<div class="glass-block hours-block">
-
-<h3 class="hours-title">
-Часы
-</h3>
-
-<div class="hours-grid">
-
-<div class="hours-col">
-
-<label>
-с обедом
-</label>
-
-<input
-id="hoursWith"
-type="number"
-placeholder="0"
-/>
-
-</div>
-
-<div class="hours-col">
-
-<label>
-без обеда
-</label>
-
-<input
-id="hoursWithout"
-type="number"
-placeholder="0"
-/>
-
-</div>
-
-<div class="hours-col">
-
-<label>
-дополнительные
-</label>
-
-<input
-id="hoursBuffer"
-type="number"
-placeholder="0"
-/>
-
-</div>
-
-</div>
-
-<p class="hours-hint">
-брифы, обучение, праздничные и т.д.
-</p>
-
-</div>
-
-<h2 class="kpi-title">
-KPI
-</h2>
-
-<p class="hint">
-Сумма весов KPI должна быть 100%
-</p>
-
-<div class="kpi-row">
-
-<div class="glass-block kpi-block">
-
-<label class="kpi-label">
-KPI 1
-</label>
-
-<div class="kpi-inputs">
-
-<input id="w1" type="number" placeholder="Вес %"/>
-<input id="v1" type="number" placeholder="% выполнения"/>
-
-</div>
-
-</div>
-
-<div class="glass-block kpi-block">
-
-<label class="kpi-label">
-KPI 2
-</label>
-
-<div class="kpi-inputs">
-
-<input id="w2" type="number" placeholder="Вес %"/>
-<input id="v2" type="number" placeholder="% выполнения"/>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="kpi-row">
-
-<div class="glass-block kpi-block">
-
-<label class="kpi-label">
-KPI 3
-</label>
-
-<div class="kpi-inputs">
-
-<input id="w3" type="number" placeholder="Вес %"/>
-<input id="v3" type="number" placeholder="% выполнения"/>
-
-</div>
-
-</div>
-
-<div class="glass-block kpi-block">
-
-<label class="kpi-label">
-KPI 4
-</label>
-
-<div class="kpi-inputs">
-
-<input id="w4" type="number" placeholder="Вес %"/>
-<input id="v4" type="number" placeholder="% выполнения"/>
-
-</div>
-
-</div>
-
-</div>
-
-<button
-class="calc-btn"
-onclick="calculate()"
->
-✦ Рассчитать
-</button>
-
-<div class="result-block">
-
-<div class="result-row">
-<div class="res-label">Ставка/час</div>
-<div id="rate" class="res-val">—</div>
-</div>
-
-<div class="result-row">
-<div class="res-label">Оклад</div>
-<div id="oklad" class="res-val">—</div>
-</div>
-
-<div class="result-row">
-<div class="res-label">Бонус</div>
-<div id="bonus" class="res-val">—</div>
-</div>
-
-<div class="result-row total">
-<div class="res-label">Итого</div>
-<div id="total" class="res-val">—</div>
-</div>
-
-</div>
-
-</div>
-
-<div class="footer-glass">
-СПИЗДИЛ КОД У САРАТОВА EGORKIN
-</div>
-
-</div>
-
-<button id="funBtn">
-＋
-</button>
-
-<div id="funPopup">
-Пошел нахуй один долбоеб клиент.
 </div>
 
 <script>
 
-const rateSlider =
-document.getElementById('rateSlider');
+const HF_TOKEN = "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";
 
-const premiumSlider =
-document.getElementById('premiumSlider');
+let imageFile = null;
 
-const rateValue =
-document.getElementById('rateValue');
+document.getElementById("file").addEventListener("change", e => {
 
-const premiumValue =
-document.getElementById('premiumValue');
+imageFile = e.target.files[0];
 
-function fmtMoney(n){
-return Number(n).toFixed(2)+' ₽';
-}
-
-function normalizeKPIraw(raw){
-
-const v = parseFloat(raw);
-
-if(isNaN(v)) return null;
-if(v < 80) return 0;
-if(v >= 80 && v < 90) return 60;
-if(v >= 90 && v < 100) return 80;
-if(v === 100) return 100;
-
-if(v > 100){
-
-const over = v - 100;
-
-return Math.min(
-100 + over * 2.5,
-125
-);
-
-}
-
-return null;
-
-}
-
-function calculate(){
-
-const baseRate =
-parseFloat(rateSlider.value);
-
-const premiumRate =
-parseFloat(premiumSlider.value);
-
-const format =
-document.getElementById('format').value;
-
-const hw =
-parseFloat(document.getElementById('hoursWith').value) || 0;
-
-const hwo =
-parseFloat(document.getElementById('hoursWithout').value) || 0;
-
-const buffer =
-parseFloat(document.getElementById('hoursBuffer').value) || 0;
-
-const rate =
-format === 'MAU'
-? baseRate * 1.10
-: baseRate;
-
-const oklad =
-rate * (hw + buffer);
-
-const bonusHour =
-premiumRate;
-
-const baseBonus =
-bonusHour * hwo;
-
-let bonus =
-baseBonus;
-
-const used = [];
-
-for(let i=1;i<=4;i++){
-
-const w =
-parseFloat(document.getElementById('w'+i).value);
-
-const v =
-parseFloat(document.getElementById('v'+i).value);
-
-if(!isNaN(w)||!isNaN(v)){
-
-used.push({
-
-w:isNaN(w)?0:w,
-v:isNaN(v)?0:v
+const preview = document.getElementById("preview");
+preview.src = URL.createObjectURL(imageFile);
+preview.style.display = "block";
 
 });
 
+async function generateHair(){
+
+if(!imageFile){
+alert("Загрузи фото");
+return;
 }
 
-}
+const status = document.getElementById("status");
+const result = document.getElementById("result");
 
-if(used.length > 0){
+status.innerText = "AI создаёт причёску...";
 
-const sumW =
-used.reduce((s,it)=>s+it.w,0);
+try{
 
-const normalized =
-sumW === 0
-? used.map(()=>100/used.length)
-: used.map(it=>(it.w/sumW)*100);
-
-bonus = 0;
-
-for(let i=0;i<used.length;i++){
-
-const nRaw =
-normalizeKPIraw(used[i].v);
-
-const coefficient =
-nRaw === null
-? 0
-: nRaw / 100;
-
-bonus +=
-(baseBonus / 100)
-*
-normalized[i]
-*
-coefficient;
-
-}
-
-}
-
-const total =
-oklad + bonus;
-
-document.getElementById('rate').textContent =
-fmtMoney(rate);
-
-document.getElementById('oklad').textContent =
-fmtMoney(oklad);
-
-document.getElementById('bonus').textContent =
-fmtMoney(bonus);
-
-document.getElementById('total').textContent =
-fmtMoney(total);
-
-rateValue.textContent =
-baseRate + ' ₽';
-
-premiumValue.textContent =
-premiumRate + ' ₽';
-
-}
-
-document.querySelectorAll(
-'input,select'
-).forEach(el=>{
-
-el.addEventListener('input',calculate);
-el.addEventListener('change',calculate);
-
-});
-
-calculate();
-
-const funBtn =
-document.getElementById('funBtn');
-
-const funPopup =
-document.getElementById('funPopup');
-
-funBtn.addEventListener(
-'click',
-()=>{
-
-funPopup.classList.add('show');
-
-setTimeout(()=>{
-
-funPopup.classList.remove('show');
-
-},2000);
-
+const response = await fetch(
+"https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0",
+{
+method:"POST",
+headers:{
+"Authorization":"Bearer " + HF_TOKEN,
+},
+body: await buildPrompt()
 }
 );
 
-
-document.addEventListener('DOMContentLoaded',()=>{
-
-document.querySelectorAll('.glass-block,.result-block,.calc-btn,.kpi-title,.hint')
-.forEach(el=>el.classList.add('reveal'));
-
-const io=new IntersectionObserver((entries)=>{
-entries.forEach(e=>{
-if(e.isIntersecting){
-e.target.classList.add('show');
+if(!response.ok){
+throw new Error("Ошибка HF");
 }
-});
-},{threshold:.12});
 
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const blob = await response.blob();
 
-window.addEventListener('scroll',()=>{
-const y=Math.sin(window.scrollY*0.02)*-5;
-funBtn.style.transform='translateY('+y+'px)';
-});
+result.src = URL.createObjectURL(blob);
+result.style.display="block";
 
-[rateSlider,premiumSlider].forEach(sl=>{
-sl.addEventListener('input',()=>{
-if(navigator.vibrate) navigator.vibrate(8);
-});
-});
+status.innerText = "Готово ✨";
 
-calculate();
-});
-
-
-/* smoother stagger reveal + spring FAB */
-document.addEventListener('DOMContentLoaded',()=>{
-
-const revealEls=document.querySelectorAll('.glass-block,.result-block,.calc-btn,.kpi-title,.hint');
-
-revealEls.forEach((el,i)=>{
-el.classList.add('reveal');
-el.style.transitionDelay=(i*120)+'ms';
-});
-
-const io=new IntersectionObserver((entries)=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-requestAnimationFrame(()=>{
-entry.target.classList.add('show');
-});
+}catch(err){
+console.log(err);
+status.innerText = "Ошибка AI";
 }
-});
-},{threshold:.1});
 
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-let fabY=0,targetY=0;
-
-window.addEventListener('scroll',()=>{
-targetY=Math.sin(window.scrollY*0.018)*-7;
-});
-
-function animateFab(){
-fabY+=(targetY-fabY)*0.12;
-funBtn.style.transform='translateY('+fabY+'px)';
-requestAnimationFrame(animateFab);
 }
-animateFab();
 
-});
+async function buildPrompt(){
+
+const form = new FormData();
+
+form.append("inputs",
+"modern male haircut, low fade, quiff hairstyle, realistic hair transformation, photorealistic");
+
+form.append("file", imageFile);
+
+return form;
+
+}
 
 </script>
 
