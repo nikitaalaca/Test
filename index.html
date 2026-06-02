@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sonic Liquid Glass</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>ОЧИСТКА</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -16,206 +17,318 @@
     -webkit-tap-highlight-color:transparent;
 }
 
+:root{
+
+    --accent:#60a5fa;
+    --accent2:#3b82f6;
+
+    --bg1:#050816;
+    --bg2:#09111f;
+
+    --sub:rgba(255,255,255,.55);
+
+}
+
 body{
-    font-family:'Inter',sans-serif;
+
     height:100vh;
     overflow:hidden;
-    background:
-        radial-gradient(circle at top left,#2563eb 0%,transparent 30%),
-        radial-gradient(circle at bottom right,#9333ea 0%,transparent 30%),
-        linear-gradient(160deg,#040816,#07101f,#09172b);
+
+    font-family:'Inter',sans-serif;
 
     color:white;
+
+    transition:
+        background 1s ease,
+        filter 1s ease;
+
+    background:
+        radial-gradient(circle at top,var(--accent2) 0%,transparent 35%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+
 }
 
-/* BG */
+/* =========================
+   MODES COLORS
+========================= */
 
-.bg{
+body.water{
+
+    --accent:#60a5fa;
+    --accent2:#2563eb;
+
+    --bg1:#050816;
+    --bg2:#09111f;
+
+}
+
+body.bass{
+
+    --accent:#a855f7;
+    --accent2:#7c3aed;
+
+    --bg1:#12081c;
+    --bg2:#170f2c;
+
+}
+
+body.smart{
+
+    --accent:#22c55e;
+    --accent2:#16a34a;
+
+    --bg1:#07130d;
+    --bg2:#0f1d14;
+
+}
+
+/* =========================
+   AMBIENT
+========================= */
+
+.ambient{
     position:absolute;
-    border-radius:50%;
-    filter:blur(100px);
-    opacity:.55;
-    animation:float 14s infinite ease-in-out;
+    inset:0;
+    overflow:hidden;
 }
 
-.bg:nth-child(1){
-    width:400px;
-    height:400px;
-    background:#2563eb;
+.light{
+
+    position:absolute;
+
+    width:340px;
+    height:340px;
+
+    border-radius:50%;
+
+    filter:blur(120px);
+
+    opacity:.14;
+
+    transition:background 1s ease;
+
+    animation:float 18s infinite ease-in-out;
+
+}
+
+.light.one{
+    background:var(--accent2);
     top:-120px;
     left:-120px;
 }
 
-.bg:nth-child(2){
-    width:320px;
-    height:320px;
-    background:#7c3aed;
+.light.two{
+    background:var(--accent);
     right:-100px;
     bottom:-100px;
-    animation-delay:4s;
-}
-
-.bg:nth-child(3){
-    width:250px;
-    height:250px;
-    background:#06b6d4;
-    left:50%;
-    top:50%;
-    animation-delay:7s;
+    animation-delay:6s;
 }
 
 @keyframes float{
+
     0%,100%{
-        transform:translate(0,0) scale(1);
+        transform:translate(0,0);
     }
+
     50%{
-        transform:translate(30px,-40px) scale(1.08);
+        transform:translate(30px,-40px);
     }
+
 }
 
-/* APP */
+/* =========================
+   APP
+========================= */
 
 .app{
+
     position:relative;
-    z-index:10;
+    z-index:2;
+
     height:100vh;
+
     display:flex;
     flex-direction:column;
-    padding:20px;
+
+    padding:18px;
+
 }
 
-/* GLASS */
+/* =========================
+   ISLAND
+========================= */
+
+.island{
+
+    width:126px;
+    height:36px;
+
+    margin:4px auto 20px;
+
+    border-radius:30px;
+
+    background:#000;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
+    transition:
+        width .7s cubic-bezier(.2,.8,.2,1),
+        height .7s cubic-bezier(.2,.8,.2,1);
+
+}
+
+.island.active{
+    width:260px;
+    height:84px;
+}
+
+.island-inner{
+
+    opacity:0;
+    transform:translateY(10px);
+
+    transition:.45s;
+
+}
+
+.island.active .island-inner{
+
+    opacity:1;
+    transform:translateY(0);
+
+}
+
+.live{
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:var(--accent);
+
+    animation:pulse 2s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%,100%{
+        transform:scale(1);
+        opacity:1;
+    }
+
+    50%{
+        transform:scale(1.5);
+        opacity:.5;
+    }
+
+}
+
+/* =========================
+   GLASS
+========================= */
 
 .glass{
+
     position:relative;
 
     background:
         linear-gradient(
             180deg,
-            rgba(255,255,255,.12),
-            rgba(255,255,255,.05)
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.03)
         );
 
-    border:1px solid rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.06);
 
-    backdrop-filter:blur(40px) saturate(180%);
-    -webkit-backdrop-filter:blur(40px) saturate(180%);
+    backdrop-filter:blur(28px) saturate(180%);
+    -webkit-backdrop-filter:blur(28px) saturate(180%);
 
     box-shadow:
-        0 10px 40px rgba(0,0,0,.35),
-        inset 0 1px 0 rgba(255,255,255,.12),
-        inset 0 -1px 0 rgba(255,255,255,.04);
+        inset 0 1px 0 rgba(255,255,255,.06),
+        0 10px 30px rgba(0,0,0,.25);
 
     overflow:hidden;
+
 }
 
 .glass::before{
+
     content:'';
+
     position:absolute;
     inset:0;
 
     background:
         linear-gradient(
-            130deg,
-            rgba(255,255,255,.16),
-            transparent 35%,
-            transparent 60%,
-            rgba(255,255,255,.03)
+            135deg,
+            rgba(255,255,255,.08),
+            transparent 40%
         );
 
-    pointer-events:none;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 .header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+
     margin-bottom:20px;
-}
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:14px;
-}
-
-.logo-icon{
-    width:60px;
-    height:60px;
-    border-radius:24px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-size:28px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #3b82f6,
-            #8b5cf6
-        );
-
-    box-shadow:
-        0 10px 40px rgba(59,130,246,.5);
-
-    animation:pulse 4s infinite;
-}
-
-@keyframes pulse{
-    0%,100%{
-        transform:scale(1);
-    }
-    50%{
-        transform:scale(1.08);
-    }
 }
 
 .logo h1{
-    font-size:30px;
-    letter-spacing:-1px;
+
+    font-size:34px;
+    letter-spacing:-2px;
+
 }
 
-.logo span{
-    opacity:.6;
+.logo p{
+
     font-size:13px;
+    color:var(--sub);
+
+    margin-top:4px;
+
 }
 
-.settings{
-    width:56px;
-    height:56px;
-    border-radius:22px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-size:24px;
-}
-
-/* HERO */
+/* =========================
+   HERO
+========================= */
 
 .hero{
-    border-radius:42px;
-    padding:30px;
+
+    border-radius:38px;
+    padding:26px;
+
 }
 
-/* CLEAN BUTTON */
+/* =========================
+   ORB
+========================= */
 
-.clean-wrap{
+.orb-wrap{
+
     display:flex;
     justify-content:center;
-    margin:25px 0 35px;
+
+    margin:20px 0 28px;
+
 }
 
-.cleaner{
+.orb{
+
     position:relative;
 
-    width:240px;
-    height:240px;
+    width:190px;
+    height:190px;
 
     border-radius:50%;
 
@@ -228,497 +341,553 @@ body{
     background:
         radial-gradient(
             circle at 30% 30%,
-            rgba(255,255,255,.3),
-            rgba(255,255,255,.05)
+            rgba(255,255,255,.18),
+            rgba(255,255,255,.02)
         );
 
     border:1px solid rgba(255,255,255,.08);
 
-    backdrop-filter:blur(50px);
-
     box-shadow:
-        0 0 100px rgba(59,130,246,.4),
-        inset 0 0 40px rgba(255,255,255,.08);
+        inset 0 0 30px rgba(255,255,255,.04),
+        0 0 60px color-mix(in srgb, var(--accent) 30%, transparent);
 
-    overflow:hidden;
+    transition:
+        transform .8s cubic-bezier(.2,.8,.2,1),
+        box-shadow 1s ease;
 
-    transition:.5s cubic-bezier(.2,.8,.2,1);
-
-    animation:breath 5s infinite ease-in-out;
 }
 
-@keyframes breath{
+.orb.active{
+
+    animation:breathe 2s infinite ease-in-out;
+
+}
+
+@keyframes breathe{
+
     0%,100%{
         transform:scale(1);
     }
+
     50%{
-        transform:scale(1.05);
+        transform:scale(1.04);
     }
+
 }
 
-.cleaner.active{
-    animation:activePulse 1s infinite;
-}
+.orb::before{
 
-@keyframes activePulse{
-    0%,100%{
-        transform:scale(1);
-    }
-    50%{
-        transform:scale(1.1);
-    }
-}
-
-.cleaner::before{
     content:'';
 
     position:absolute;
 
-    width:420px;
-    height:120px;
+    width:240px;
+    height:240px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.04);
+
+}
+
+.orb::after{
+
+    content:'';
+
+    position:absolute;
+    inset:0;
+
+    border-radius:50%;
 
     background:
         linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.18),
-            transparent
+            130deg,
+            rgba(255,255,255,.1),
+            transparent 45%
         );
 
-    transform:rotate(25deg);
-
-    animation:shine 6s linear infinite;
 }
 
-@keyframes shine{
-    from{
-        transform:translateX(-300px) rotate(25deg);
-    }
-    to{
-        transform:translateX(300px) rotate(25deg);
-    }
-}
+.orb h2{
 
-.cleaner h2{
     position:relative;
     z-index:2;
-    font-size:44px;
+
+    font-size:34px;
     letter-spacing:-2px;
+
 }
 
-/* RINGS */
+/* =========================
+   VISUALIZER
+========================= */
 
-.ring{
-    position:absolute;
-    border-radius:50%;
-    border:2px solid rgba(255,255,255,.12);
+.visualizer{
 
-    animation:ring 4s infinite linear;
-}
-
-.ring:nth-child(1){
     width:100%;
-    height:100%;
-}
-
-.ring:nth-child(2){
-    width:130%;
-    height:130%;
-    animation-delay:1s;
-}
-
-.ring:nth-child(3){
-    width:160%;
-    height:160%;
-    animation-delay:2s;
-}
-
-@keyframes ring{
-    0%{
-        transform:scale(.9);
-        opacity:1;
-    }
-    100%{
-        transform:scale(1.4);
-        opacity:0;
-    }
-}
-
-/* WAVEFORM */
-
-.waveform{
     height:70px;
 
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
+    margin-bottom:24px;
 
-    gap:5px;
-
-    margin-bottom:25px;
 }
 
-.bar{
-    width:7px;
-    border-radius:20px;
-
-    background:
-        linear-gradient(
-            to top,
-            #60a5fa,
-            #c084fc
-        );
-
-    animation:wave 1s infinite ease-in-out;
-}
-
-.bar:nth-child(2){animation-delay:.1s;}
-.bar:nth-child(3){animation-delay:.2s;}
-.bar:nth-child(4){animation-delay:.3s;}
-.bar:nth-child(5){animation-delay:.4s;}
-.bar:nth-child(6){animation-delay:.5s;}
-.bar:nth-child(7){animation-delay:.6s;}
-.bar:nth-child(8){animation-delay:.7s;}
-
-@keyframes wave{
-    0%,100%{
-        height:10px;
-    }
-    50%{
-        height:65px;
-    }
-}
-
-/* SLIDER */
+/* =========================
+   SLIDER
+========================= */
 
 .control{
-    margin-bottom:25px;
+
+    margin-bottom:22px;
+
 }
 
 .control label{
+
     display:flex;
     justify-content:space-between;
+
     margin-bottom:12px;
-    opacity:.8;
+
+    font-size:14px;
+
+    color:var(--sub);
+
 }
 
 .slider{
+
     width:100%;
     appearance:none;
 
-    height:12px;
+    height:8px;
 
     border-radius:30px;
 
     background:
         linear-gradient(
             90deg,
-            #60a5fa 65%,
+            var(--accent) 65%,
             rgba(255,255,255,.08) 65%
         );
+
 }
 
 .slider::-webkit-slider-thumb{
+
     appearance:none;
 
-    width:30px;
-    height:30px;
+    width:24px;
+    height:24px;
 
     border-radius:50%;
 
     background:white;
 
-    border:5px solid rgba(255,255,255,.3);
+    border:4px solid rgba(255,255,255,.2);
 
     box-shadow:
-        0 0 20px rgba(255,255,255,.7);
+        0 0 18px rgba(255,255,255,.25);
 
-    cursor:pointer;
 }
 
-/* STATS */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-
-.stat{
-    padding:18px;
-    border-radius:24px;
-    text-align:center;
-}
-
-.stat h3{
-    margin-bottom:5px;
-}
-
-.stat p{
-    opacity:.6;
-    font-size:13px;
-}
-
-/* MODES */
-
-.bottom{
-    margin-top:auto;
-}
+/* =========================
+   MODES
+========================= */
 
 .modes{
+
     display:flex;
-    gap:12px;
-    overflow:auto;
-    padding:5px 0 10px;
+    gap:10px;
+
+    margin-bottom:18px;
+
 }
 
 .mode{
-    min-width:130px;
-    padding:18px;
+
+    flex:1;
+
+    padding:16px;
+
     border-radius:24px;
 
-    transition:.35s;
+    transition:
+        transform .4s cubic-bezier(.2,.8,.2,1),
+        background .4s,
+        border .4s;
+
+    cursor:pointer;
+
+    border:1px solid transparent;
+
 }
 
 .mode:hover{
-    transform:translateY(-5px);
+
+    transform:translateY(-3px);
+
+}
+
+.mode.active{
+
+    background:rgba(255,255,255,.08);
+
+    border:
+        1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+
+    box-shadow:
+        0 0 25px color-mix(in srgb, var(--accent) 20%, transparent);
+
 }
 
 .mode h4{
-    margin-bottom:8px;
+
+    margin-bottom:6px;
+    font-size:15px;
+
 }
 
 .mode p{
+
     font-size:12px;
-    opacity:.65;
-    line-height:1.5;
+    line-height:1.4;
+
+    color:var(--sub);
+
 }
 
-/* APPLE LIQUID DOCK */
+/* =========================
+   STATS
+========================= */
+
+.stats{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    gap:12px;
+
+}
+
+.card{
+
+    padding:16px;
+    border-radius:22px;
+
+    text-align:center;
+
+}
+
+.card h3{
+
+    margin-bottom:4px;
+
+}
+
+.card p{
+
+    font-size:12px;
+    color:var(--sub);
+
+}
+
+/* =========================
+   DOCK
+========================= */
+
+.bottom{
+
+    margin-top:auto;
+
+}
 
 .dock{
-    position:relative;
-
-    margin-top:18px;
-
-    padding:14px;
-
-    border-radius:38px;
 
     display:flex;
-    justify-content:space-around;
-    align-items:center;
+    gap:10px;
 
-    overflow:hidden;
+    padding:10px;
 
-    backdrop-filter:blur(50px) saturate(220%);
-    -webkit-backdrop-filter:blur(50px) saturate(220%);
+    border-radius:34px;
+
+    margin-top:20px;
+
 }
-
-/* liquid moving glow */
-
-.dock::before{
-    content:'';
-
-    position:absolute;
-
-    width:180px;
-    height:180px;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,255,255,.18),
-            transparent 70%
-        );
-
-    filter:blur(25px);
-
-    left:var(--x,50%);
-    top:50%;
-
-    transform:translate(-50%,-50%);
-
-    transition:left .2s ease-out;
-
-    pointer-events:none;
-}
-
-/* shine */
-
-.dock::after{
-    content:'';
-
-    position:absolute;
-    inset:0;
-
-    background:
-        linear-gradient(
-            120deg,
-            rgba(255,255,255,.12),
-            transparent 30%,
-            transparent 70%,
-            rgba(255,255,255,.04)
-        );
-
-    pointer-events:none;
-}
-
-/* DOCK ICONS */
 
 .dock-item{
-    position:relative;
 
-    width:62px;
-    height:62px;
+    flex:1;
 
-    border-radius:24px;
+    height:52px;
+
+    border-radius:22px;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    font-size:28px;
+    font-size:15px;
+    font-weight:600;
 
-    z-index:2;
+    color:rgba(255,255,255,.6);
 
     transition:
-        transform .25s cubic-bezier(.2,.8,.2,1),
-        background .25s ease,
-        box-shadow .25s ease;
+        all .45s cubic-bezier(.2,.8,.2,1);
+
+    cursor:pointer;
+
+}
+
+.dock-item.active{
+
+    color:white;
+
+    background:rgba(255,255,255,.08);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        0 0 25px color-mix(in srgb, var(--accent) 18%, transparent);
+
 }
 
 .dock-item:hover{
 
-    transform:
-        translateY(-12px)
-        scale(1.12);
+    transform:translateY(-2px);
+
+    color:white;
+
+}
+
+/* =========================
+   HOMEBAR
+========================= */
+
+.homebar{
+
+    width:120px;
+    height:5px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.22);
+
+    margin:14px auto 0;
+
+}
+
+/* =========================
+   MODE FLASH
+========================= */
+
+.flash{
+
+    position:fixed;
+    inset:0;
 
     background:
-        rgba(255,255,255,.1);
+        radial-gradient(
+            circle,
+            color-mix(in srgb, var(--accent) 30%, transparent),
+            transparent 70%
+        );
 
-    box-shadow:
-        0 10px 30px rgba(255,255,255,.08),
-        inset 0 1px 0 rgba(255,255,255,.1);
+    pointer-events:none;
+
+    opacity:0;
+
+    z-index:20;
+
 }
 
-/* floating effect */
+.flash.active{
 
-.dock:hover .dock-item:not(:hover){
-    transform:scale(.94);
-    opacity:.7;
+    animation:flash .8s ease;
+
 }
 
-/* MOBILE */
+@keyframes flash{
 
-@media(max-width:700px){
-
-    .cleaner{
-        width:210px;
-        height:210px;
+    0%{
+        opacity:0;
     }
 
-    .cleaner h2{
-        font-size:38px;
+    30%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0;
     }
 
 }
 
 </style>
 </head>
-<body>
+<body class="water">
 
-<div class="bg"></div>
-<div class="bg"></div>
-<div class="bg"></div>
+<div class="flash" id="flash"></div>
+
+<div class="ambient">
+
+    <div class="light one"></div>
+    <div class="light two"></div>
+
+</div>
 
 <div class="app">
+
+    <div class="island" id="island">
+
+        <div class="island-inner">
+
+            <div style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+            ">
+
+                <div class="live"></div>
+
+                <div>
+
+                    <div style="
+                        font-size:14px;
+                        font-weight:600;
+                    ">
+                        Очистка активна
+                    </div>
+
+                    <div style="
+                        font-size:12px;
+                        opacity:.6;
+                    ">
+                        Вибрация динамика
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
     <div class="header">
 
         <div class="logo">
 
-            <div class="logo-icon">
-                🔊
-            </div>
+            <h1>ОЧИСТКА</h1>
 
-            <div>
-                <h1>Sonic</h1>
-                <span>Liquid Speaker Cleaner</span>
-            </div>
+            <p>
+                Жидкая очистка динамика
+            </p>
 
-        </div>
-
-        <div class="settings glass">
-            ⚙️
         </div>
 
     </div>
 
     <div class="hero glass">
 
-        <div class="clean-wrap">
+        <div class="orb-wrap">
 
-            <div class="cleaner" id="cleaner">
+            <div class="orb" id="orb">
 
-                <div class="ring"></div>
-                <div class="ring"></div>
-                <div class="ring"></div>
-
-                <h2 id="btnText">CLEAN</h2>
+                <h2 id="buttonText">
+                    СТАРТ
+                </h2>
 
             </div>
 
         </div>
 
-        <div class="waveform">
-
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-
-        </div>
+        <canvas
+            class="visualizer"
+            id="visualizer"
+        ></canvas>
 
         <div class="control">
 
             <label>
-                <span>Frequency</span>
-                <span id="freqText">165Hz</span>
+
+                <span>Частота</span>
+
+                <span id="freq">
+                    165Гц
+                </span>
+
             </label>
 
             <input
                 type="range"
+                class="slider"
+                id="slider"
                 min="0"
                 max="250"
                 value="165"
-                class="slider"
-                id="slider"
             >
+
+        </div>
+
+        <div class="modes">
+
+            <div
+                class="mode glass active"
+                data-mode="water"
+            >
+
+                <h4>Вода</h4>
+
+                <p>
+                    Удаление влаги из динамика
+                </p>
+
+            </div>
+
+            <div
+                class="mode glass"
+                data-mode="bass"
+            >
+
+                <h4>Бас</h4>
+
+                <p>
+                    Глубокие низкие частоты
+                </p>
+
+            </div>
+
+            <div
+                class="mode glass"
+                data-mode="smart"
+            >
+
+                <h4>Умный</h4>
+
+                <p>
+                    Адаптивная AI очистка
+                </p>
+
+            </div>
 
         </div>
 
         <div class="stats">
 
-            <div class="stat glass">
+            <div class="card glass">
                 <h3>98%</h3>
-                <p>Power</p>
+                <p>Мощность</p>
             </div>
 
-            <div class="stat glass">
-                <h3>250Hz</h3>
-                <p>Boost</p>
+            <div class="card glass">
+                <h3>250Гц</h3>
+                <p>Усиление</p>
             </div>
 
-            <div class="stat glass">
+            <div class="card glass">
                 <h3>AI</h3>
-                <p>Smart Clean</p>
+                <p>Адаптация</p>
             </div>
 
         </div>
@@ -727,33 +896,27 @@ body{
 
     <div class="bottom">
 
-        <div class="modes">
+        <div class="dock glass">
 
-            <div class="mode glass">
-                <h4>Water Eject</h4>
-                <p>Удаление воды мощными импульсами.</p>
+            <div class="dock-item active">
+                Очистка
             </div>
 
-            <div class="mode glass">
-                <h4>Deep Bass</h4>
-                <p>Глубокие низкие частоты.</p>
+            <div class="dock-item">
+                Усиление
             </div>
 
-            <div class="mode glass">
-                <h4>Ultra Sonic</h4>
-                <p>Максимальная вибрация динамика.</p>
+            <div class="dock-item">
+                Вода
+            </div>
+
+            <div class="dock-item">
+                Умный
             </div>
 
         </div>
 
-        <div class="dock glass" id="dock">
-
-            <div class="dock-item">🏠</div>
-            <div class="dock-item">🎵</div>
-            <div class="dock-item">⚡</div>
-            <div class="dock-item">💧</div>
-
-        </div>
+        <div class="homebar"></div>
 
     </div>
 
@@ -761,42 +924,59 @@ body{
 
 <script>
 
-/* AUDIO */
+/* =========================
+   AUDIO
+========================= */
 
 let audioContext;
 let oscillator;
 let gainNode;
+
 let playing = false;
 
-const cleaner = document.getElementById('cleaner');
-const btnText = document.getElementById('btnText');
+const orb =
+    document.getElementById('orb');
 
-const slider = document.getElementById('slider');
-const freqText = document.getElementById('freqText');
+const island =
+    document.getElementById('island');
+
+const buttonText =
+    document.getElementById('buttonText');
+
+const slider =
+    document.getElementById('slider');
+
+const freq =
+    document.getElementById('freq');
 
 slider.addEventListener('input',()=>{
 
-    freqText.innerText =
-        slider.value + 'Hz';
+    freq.innerText =
+        Math.floor(slider.value) + 'Гц';
 
     slider.style.background =
         `linear-gradient(
             90deg,
-            #60a5fa ${slider.value / 2.5}%,
-            rgba(255,255,255,.08) ${slider.value / 2.5}%
+            var(--accent)
+            ${slider.value / 2.5}%,
+            rgba(255,255,255,.08)
+            ${slider.value / 2.5}%
         )`;
 
     if(oscillator){
+
         oscillator.frequency.value =
             slider.value;
+
     }
 
 });
 
-function startSound(){
+function start(){
 
     audioContext =
-        new(window.AudioContext || window.webkitAudioContext)();
+        new(window.AudioContext ||
+        window.webkitAudioContext)();
 
     oscillator =
         audioContext.createOscillator();
@@ -809,42 +989,51 @@ function startSound(){
     oscillator.frequency.value =
         slider.value;
 
-    gainNode.gain.value = .2;
+    gainNode.gain.value = .18;
 
     oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+
+    gainNode.connect(
+        audioContext.destination
+    );
 
     oscillator.start();
 
 }
 
-function stopSound(){
+function stop(){
 
     oscillator.stop();
 
 }
 
-cleaner.addEventListener('click',()=>{
+orb.addEventListener('click',()=>{
 
     if(!playing){
 
-        startSound();
+        start();
 
-        cleaner.classList.add('active');
+        orb.classList.add('active');
 
-        btnText.innerText = 'STOP';
+        island.classList.add('active');
 
-        navigator.vibrate?.([100,50,100]);
+        buttonText.innerText =
+            'СТОП';
+
+        navigator.vibrate?.([100]);
 
         playing = true;
 
     }else{
 
-        stopSound();
+        stop();
 
-        cleaner.classList.remove('active');
+        orb.classList.remove('active');
 
-        btnText.innerText = 'CLEAN';
+        island.classList.remove('active');
+
+        buttonText.innerText =
+            'СТАРТ';
 
         playing = false;
 
@@ -852,53 +1041,214 @@ cleaner.addEventListener('click',()=>{
 
 });
 
-/* PARALLAX */
+/* =========================
+   VISUALIZER
+========================= */
 
-document.addEventListener('mousemove',(e)=>{
+const canvas =
+    document.getElementById('visualizer');
 
-    const x =
-        (window.innerWidth / 2 - e.pageX) / 35;
+const ctx =
+    canvas.getContext('2d');
 
-    const y =
-        (window.innerHeight / 2 - e.pageY) / 35;
+function resizeCanvas(){
 
-    cleaner.style.transform =
-        `rotateY(${x}deg) rotateX(${-y}deg)`;
+    canvas.width =
+        canvas.offsetWidth;
 
-});
+    canvas.height =
+        canvas.offsetHeight;
 
-/* LIQUID DOCK */
+}
 
-const dock =
-    document.getElementById('dock');
+resizeCanvas();
 
-dock.addEventListener('mousemove',(e)=>{
+window.addEventListener(
+    'resize',
+    resizeCanvas
+);
 
-    const rect =
-        dock.getBoundingClientRect();
+function drawVisualizer(){
 
-    const x =
-        e.clientX - rect.left;
-
-    dock.style.setProperty(
-        '--x',
-        `${x}px`
+    requestAnimationFrame(
+        drawVisualizer
     );
 
-});
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 
-/* hue animation */
+    const bars = 36;
+    const gap = 10;
 
-let hue = 0;
+    for(let i=0;i<bars;i++){
+
+        let wave =
+            playing
+            ? Math.sin(
+                Date.now()/180 +
+                i*.45
+              ) * 18 + 26
+            : 8;
+
+        let x =
+            i * gap + 6;
+
+        let y =
+            canvas.height/2 - wave/2;
+
+        let gradient =
+            ctx.createLinearGradient(
+                0,
+                0,
+                0,
+                canvas.height
+            );
+
+        gradient.addColorStop(
+            0,
+            'rgba(255,255,255,.9)'
+        );
+
+        gradient.addColorStop(
+            1,
+            getComputedStyle(document.body)
+            .getPropertyValue('--accent')
+        );
+
+        ctx.fillStyle = gradient;
+
+        ctx.beginPath();
+
+        ctx.roundRect(
+            x,
+            y,
+            5,
+            wave,
+            20
+        );
+
+        ctx.fill();
+
+    }
+
+}
+
+drawVisualizer();
+
+/* =========================
+   AUTO SWEEP
+========================= */
 
 setInterval(()=>{
 
-    hue += .15;
+    if(playing){
 
-    document.body.style.filter =
-        `hue-rotate(${hue}deg)`;
+        let value =
+            Number(slider.value);
 
-},40);
+        value += .4;
+
+        if(value > 250){
+            value = 0;
+        }
+
+        slider.value = value;
+
+        freq.innerText =
+            Math.floor(value) + 'Гц';
+
+        slider.style.background =
+            `linear-gradient(
+                90deg,
+                var(--accent)
+                ${value / 2.5}%,
+                rgba(255,255,255,.08)
+                ${value / 2.5}%
+            )`;
+
+        oscillator.frequency.value =
+            value;
+
+    }
+
+},35);
+
+/* =========================
+   PARALLAX
+========================= */
+
+document.addEventListener(
+    'mousemove',
+    (e)=>{
+
+    const x =
+        (window.innerWidth/2 - e.pageX)/90;
+
+    const y =
+        (window.innerHeight/2 - e.pageY)/90;
+
+    orb.style.transform =
+        `translate(${x}px,${y}px)`;
+
+});
+
+/* =========================
+   MODES
+========================= */
+
+const modes =
+    document.querySelectorAll('.mode');
+
+const flash =
+    document.getElementById('flash');
+
+modes.forEach(mode=>{
+
+    mode.addEventListener('click',()=>{
+
+        modes.forEach(m=>
+            m.classList.remove('active')
+        );
+
+        mode.classList.add('active');
+
+        document.body.className =
+            mode.dataset.mode;
+
+        flash.classList.remove('active');
+
+        void flash.offsetWidth;
+
+        flash.classList.add('active');
+
+    });
+
+});
+
+/* =========================
+   DOCK
+========================= */
+
+const tabs =
+    document.querySelectorAll('.dock-item');
+
+tabs.forEach(tab=>{
+
+    tab.addEventListener('click',()=>{
+
+        tabs.forEach(t=>
+            t.classList.remove('active')
+        );
+
+        tab.classList.add('active');
+
+    });
+
+});
 
 </script>
 
