@@ -1,1294 +1,904 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonic Liquid Glass</title>
 
-<meta charset="UTF-8"/>
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-/>
-
-<meta
-name="apple-mobile-web-app-capable"
-content="yes"
-/>
-
-<meta
-name="apple-mobile-web-app-status-bar-style"
-content="black-translucent"
-/>
-
-<meta
-name="theme-color"
-content="#050816"
-/>
-
-<title>CASH КАЛЬКУЛЯТОР</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
-@font-face{
-font-family:'SF Pro Display';
-src:local('SF Pro Display');
-}
-
-:root{
-
---glass:
-rgba(255,255,255,.07);
-
---border:
-rgba(255,255,255,.12);
-
---text:
-rgba(255,255,255,.96);
-
---sub:
-rgba(255,255,255,.52);
-
---shadow:
-0 20px 70px rgba(0,0,0,.45);
-
-}
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
--webkit-tap-highlight-color:transparent;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 body{
+    font-family:'Inter',sans-serif;
+    height:100vh;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at top left,#2563eb 0%,transparent 30%),
+        radial-gradient(circle at bottom right,#9333ea 0%,transparent 30%),
+        linear-gradient(160deg,#040816,#07101f,#09172b);
 
-font-family:
-'SF Pro Display',
--apple-system,
-BlinkMacSystemFont,
-sans-serif;
+    color:white;
+}
 
-min-height:100vh;
+/* BG */
 
-padding:
-max(18px, env(safe-area-inset-top))
-18px
-max(40px, env(safe-area-inset-bottom));
+.bg{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.55;
+    animation:float 14s infinite ease-in-out;
+}
 
-background:
-linear-gradient(
-180deg,
-#020617,
-#081120,
-#0b1324
-);
+.bg:nth-child(1){
+    width:400px;
+    height:400px;
+    background:#2563eb;
+    top:-120px;
+    left:-120px;
+}
 
-overflow-y:auto;
+.bg:nth-child(2){
+    width:320px;
+    height:320px;
+    background:#7c3aed;
+    right:-100px;
+    bottom:-100px;
+    animation-delay:4s;
+}
 
-position:relative;
+.bg:nth-child(3){
+    width:250px;
+    height:250px;
+    background:#06b6d4;
+    left:50%;
+    top:50%;
+    animation-delay:7s;
+}
 
-display:flex;
-justify-content:center;
+@keyframes float{
+    0%,100%{
+        transform:translate(0,0) scale(1);
+    }
+    50%{
+        transform:translate(30px,-40px) scale(1.08);
+    }
+}
+
+/* APP */
+
+.app{
+    position:relative;
+    z-index:10;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding:20px;
+}
+
+/* GLASS */
+
+.glass{
+    position:relative;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.12),
+            rgba(255,255,255,.05)
+        );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(40px) saturate(180%);
+    -webkit-backdrop-filter:blur(40px) saturate(180%);
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.12),
+        inset 0 -1px 0 rgba(255,255,255,.04);
+
+    overflow:hidden;
+}
+
+.glass::before{
+    content:'';
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            130deg,
+            rgba(255,255,255,.16),
+            transparent 35%,
+            transparent 60%,
+            rgba(255,255,255,.03)
+        );
+
+    pointer-events:none;
+}
+
+/* HEADER */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.logo-icon{
+    width:60px;
+    height:60px;
+    border-radius:24px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #3b82f6,
+            #8b5cf6
+        );
+
+    box-shadow:
+        0 10px 40px rgba(59,130,246,.5);
+
+    animation:pulse 4s infinite;
+}
+
+@keyframes pulse{
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.08);
+    }
+}
+
+.logo h1{
+    font-size:30px;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    opacity:.6;
+    font-size:13px;
+}
+
+.settings{
+    width:56px;
+    height:56px;
+    border-radius:22px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:24px;
+}
+
+/* HERO */
+
+.hero{
+    border-radius:42px;
+    padding:30px;
+}
+
+/* CLEAN BUTTON */
+
+.clean-wrap{
+    display:flex;
+    justify-content:center;
+    margin:25px 0 35px;
+}
+
+.cleaner{
+    position:relative;
+
+    width:240px;
+    height:240px;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            rgba(255,255,255,.3),
+            rgba(255,255,255,.05)
+        );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(50px);
+
+    box-shadow:
+        0 0 100px rgba(59,130,246,.4),
+        inset 0 0 40px rgba(255,255,255,.08);
+
+    overflow:hidden;
+
+    transition:.5s cubic-bezier(.2,.8,.2,1);
+
+    animation:breath 5s infinite ease-in-out;
+}
+
+@keyframes breath{
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.05);
+    }
+}
+
+.cleaner.active{
+    animation:activePulse 1s infinite;
+}
+
+@keyframes activePulse{
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.1);
+    }
+}
+
+.cleaner::before{
+    content:'';
+
+    position:absolute;
+
+    width:420px;
+    height:120px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.18),
+            transparent
+        );
+
+    transform:rotate(25deg);
+
+    animation:shine 6s linear infinite;
+}
+
+@keyframes shine{
+    from{
+        transform:translateX(-300px) rotate(25deg);
+    }
+    to{
+        transform:translateX(300px) rotate(25deg);
+    }
+}
+
+.cleaner h2{
+    position:relative;
+    z-index:2;
+    font-size:44px;
+    letter-spacing:-2px;
+}
+
+/* RINGS */
+
+.ring{
+    position:absolute;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,.12);
+
+    animation:ring 4s infinite linear;
+}
+
+.ring:nth-child(1){
+    width:100%;
+    height:100%;
+}
+
+.ring:nth-child(2){
+    width:130%;
+    height:130%;
+    animation-delay:1s;
+}
+
+.ring:nth-child(3){
+    width:160%;
+    height:160%;
+    animation-delay:2s;
+}
+
+@keyframes ring{
+    0%{
+        transform:scale(.9);
+        opacity:1;
+    }
+    100%{
+        transform:scale(1.4);
+        opacity:0;
+    }
+}
+
+/* WAVEFORM */
+
+.waveform{
+    height:70px;
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+
+    gap:5px;
+
+    margin-bottom:25px;
+}
+
+.bar{
+    width:7px;
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            to top,
+            #60a5fa,
+            #c084fc
+        );
+
+    animation:wave 1s infinite ease-in-out;
+}
+
+.bar:nth-child(2){animation-delay:.1s;}
+.bar:nth-child(3){animation-delay:.2s;}
+.bar:nth-child(4){animation-delay:.3s;}
+.bar:nth-child(5){animation-delay:.4s;}
+.bar:nth-child(6){animation-delay:.5s;}
+.bar:nth-child(7){animation-delay:.6s;}
+.bar:nth-child(8){animation-delay:.7s;}
+
+@keyframes wave{
+    0%,100%{
+        height:10px;
+    }
+    50%{
+        height:65px;
+    }
+}
+
+/* SLIDER */
+
+.control{
+    margin-bottom:25px;
+}
+
+.control label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:12px;
+    opacity:.8;
+}
+
+.slider{
+    width:100%;
+    appearance:none;
+
+    height:12px;
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #60a5fa 65%,
+            rgba(255,255,255,.08) 65%
+        );
+}
+
+.slider::-webkit-slider-thumb{
+    appearance:none;
+
+    width:30px;
+    height:30px;
+
+    border-radius:50%;
+
+    background:white;
+
+    border:5px solid rgba(255,255,255,.3);
+
+    box-shadow:
+        0 0 20px rgba(255,255,255,.7);
+
+    cursor:pointer;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.stat{
+    padding:18px;
+    border-radius:24px;
+    text-align:center;
+}
+
+.stat h3{
+    margin-bottom:5px;
+}
+
+.stat p{
+    opacity:.6;
+    font-size:13px;
+}
+
+/* MODES */
+
+.bottom{
+    margin-top:auto;
+}
+
+.modes{
+    display:flex;
+    gap:12px;
+    overflow:auto;
+    padding:5px 0 10px;
+}
+
+.mode{
+    min-width:130px;
+    padding:18px;
+    border-radius:24px;
+
+    transition:.35s;
+}
+
+.mode:hover{
+    transform:translateY(-5px);
+}
+
+.mode h4{
+    margin-bottom:8px;
+}
+
+.mode p{
+    font-size:12px;
+    opacity:.65;
+    line-height:1.5;
+}
+
+/* APPLE LIQUID DOCK */
+
+.dock{
+    position:relative;
+
+    margin-top:18px;
+
+    padding:14px;
+
+    border-radius:38px;
+
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+
+    overflow:hidden;
+
+    backdrop-filter:blur(50px) saturate(220%);
+    -webkit-backdrop-filter:blur(50px) saturate(220%);
+}
+
+/* liquid moving glow */
+
+.dock::before{
+    content:'';
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.18),
+            transparent 70%
+        );
+
+    filter:blur(25px);
+
+    left:var(--x,50%);
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    transition:left .2s ease-out;
+
+    pointer-events:none;
+}
+
+/* shine */
+
+.dock::after{
+    content:'';
+
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255,255,255,.12),
+            transparent 30%,
+            transparent 70%,
+            rgba(255,255,255,.04)
+        );
+
+    pointer-events:none;
+}
+
+/* DOCK ICONS */
+
+.dock-item{
+    position:relative;
+
+    width:62px;
+    height:62px;
+
+    border-radius:24px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:28px;
+
+    z-index:2;
+
+    transition:
+        transform .25s cubic-bezier(.2,.8,.2,1),
+        background .25s ease,
+        box-shadow .25s ease;
+}
+
+.dock-item:hover{
+
+    transform:
+        translateY(-12px)
+        scale(1.12);
+
+    background:
+        rgba(255,255,255,.1);
+
+    box-shadow:
+        0 10px 30px rgba(255,255,255,.08),
+        inset 0 1px 0 rgba(255,255,255,.1);
+}
+
+/* floating effect */
+
+.dock:hover .dock-item:not(:hover){
+    transform:scale(.94);
+    opacity:.7;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .cleaner{
+        width:210px;
+        height:210px;
+    }
+
+    .cleaner h2{
+        font-size:38px;
+    }
 
 }
 
-body::before{
-
-content:'';
-
-position:fixed;
-inset:0;
-
-background:
-url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?q=80&w=1600&auto=format&fit=crop')
-center/cover;
-
-filter:
-blur(24px)
-brightness(.35)
-saturate(130%);
-
-transform:scale(1.08);
-
-z-index:-3;
-
-}
-
-body::after{
-
-content:'';
-
-position:fixed;
-inset:0;
-
-background:
-
-radial-gradient(
-circle at top,
-rgba(0,140,255,.14),
-transparent 30%
-),
-
-radial-gradient(
-circle at bottom,
-rgba(255,0,180,.12),
-transparent 35%
-),
-
-rgba(0,0,0,.28);
-
-z-index:-2;
-
-}
-
-.page{
-
-width:100%;
-max-width:430px;
-
-display:flex;
-flex-direction:column;
-
-gap:18px;
-
-}
-
-.panel{
-
-padding:22px;
-
-border-radius:42px;
-
-background:
-rgba(255,255,255,.06);
-
-backdrop-filter:
-blur(42px)
-saturate(180%);
-
--webkit-backdrop-filter:
-blur(42px)
-saturate(180%);
-
-border:
-1px solid rgba(255,255,255,.10);
-
-box-shadow:
-
-var(--shadow),
-
-inset 0 1px 1px
-rgba(255,255,255,.12);
-
-display:flex;
-flex-direction:column;
-
-gap:18px;
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-.panel::before{
-
-content:'';
-
-position:absolute;
-inset:0;
-
-background:
-linear-gradient(
-135deg,
-rgba(255,255,255,.10),
-transparent,
-rgba(255,255,255,.04)
-);
-
-pointer-events:none;
-
-}
-
-.title{
-
-font-size:30px;
-
-font-weight:700;
-
-letter-spacing:-1px;
-
-color:white;
-
-margin-bottom:6px;
-
-}
-
-.beta{
-opacity:.55;
-}
-
-.glass-block{
-
-padding:18px;
-
-border-radius:30px;
-
-background:
-rgba(255,255,255,.05);
-
-border:
-1px solid rgba(255,255,255,.08);
-
-backdrop-filter:
-blur(24px);
-
--webkit-backdrop-filter:
-blur(24px);
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-.glass-block::before{
-
-content:'';
-
-position:absolute;
-
-width:180px;
-height:180px;
-
-background:
-radial-gradient(
-circle,
-rgba(255,255,255,.08),
-transparent 70%
-);
-
-top:-90px;
-right:-90px;
-
-}
-
-.big,
-.kpi-label,
-.hours-col label{
-
-display:block;
-
-font-size:14px;
-
-font-weight:600;
-
-color:var(--sub);
-
-margin-bottom:12px;
-
-padding-left:2px;
-
-}
-
-select,
-input{
-
-width:100%;
-
-height:68px;
-
-border:none;
-
-outline:none;
-
-border-radius:24px;
-
-padding:0 18px;
-
-background:
-rgba(255,255,255,.06);
-
-border:
-1px solid rgba(255,255,255,.08);
-
-color:white;
-
-font-size:24px;
-
-font-weight:700;
-
-font-family:inherit;
-
-appearance:none;
-
--webkit-appearance:none;
-
-backdrop-filter:
-blur(20px);
-
--webkit-backdrop-filter:
-blur(20px);
-
-}
-
-input[type=range]{
-
-height:12px;
-
-padding:0;
-
-border-radius:999px;
-
-background:
-rgba(255,255,255,.12);
-
-}
-
-.hours-block{
-
-display:flex;
-flex-direction:column;
-gap:18px;
-
-}
-
-.hours-title{
-
-font-size:22px;
-font-weight:700;
-letter-spacing:-1px;
-color:white;
-
-}
-
-.hours-grid{
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr 1fr;
-
-gap:12px;
-
-}
-
-.hours-col{
-
-display:flex;
-flex-direction:column;
-gap:8px;
-
-}
-
-.hours-hint{
-
-font-size:12px;
-
-line-height:1.5;
-
-color:
-rgba(255,255,255,.38);
-
-}
-
-.kpi-title{
-
-font-size:24px;
-font-weight:700;
-letter-spacing:-1px;
-color:white;
-
-}
-
-.hint{
-
-font-size:13px;
-line-height:1.5;
-
-color:
-rgba(255,255,255,.42);
-
-margin-top:-10px;
-
-}
-
-.kpi-row{
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr;
-
-gap:14px;
-
-}
-
-.kpi-block{
-
-display:flex;
-flex-direction:column;
-gap:14px;
-
-}
-
-.kpi-inputs{
-
-display:flex;
-flex-direction:column;
-gap:12px;
-
-}
-
-.result-block{
-
-padding:24px;
-
-border-radius:34px;
-
-background:
-rgba(255,255,255,.05);
-
-border:
-1px solid rgba(255,255,255,.08);
-
-display:flex;
-flex-direction:column;
-gap:20px;
-
-backdrop-filter:
-blur(24px);
-
-}
-
-.result-row{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-}
-
-.res-label{
-
-font-size:16px;
-
-font-weight:600;
-
-color:
-rgba(255,255,255,.58);
-
-}
-
-.res-val{
-
-font-size:21px;
-
-font-weight:700;
-
-letter-spacing:-.5px;
-
-color:white;
-
-}
-
-.total{
-
-padding-top:20px;
-
-border-top:
-1px solid rgba(255,255,255,.08);
-
-}
-
-.total .res-label,
-.total .res-val{
-
-font-size:34px;
-
-font-weight:800;
-
-letter-spacing:-1px;
-
-color:white;
-
-}
-
-.calc-btn{
-
-width:100%;
-
-height:82px;
-
-border:none;
-
-border-radius:999px;
-
-cursor:pointer;
-
-background:
-linear-gradient(
-135deg,
-rgba(0,140,255,.30),
-rgba(170,0,255,.22)
-);
-
-backdrop-filter:
-blur(40px);
-
-color:white;
-
-font-size:28px;
-
-font-weight:700;
-
-letter-spacing:-1px;
-
-border:
-1px solid rgba(255,255,255,.16);
-
-box-shadow:
-
-0 0 30px rgba(0,140,255,.20),
-
-inset 0 1px 1px rgba(255,255,255,.18);
-
-}
-
-.slider-value{
-
-margin-top:10px;
-
-font-size:28px;
-
-font-weight:700;
-
-color:white;
-
-text-align:center;
-
-}
-
-#funBtn{
-
-position:fixed;
-
-right:22px;
-
-bottom:34px;
-
-width:68px;
-height:68px;
-
-border:none;
-
-border-radius:50%;
-
-background:
-rgba(255,255,255,.10);
-
-backdrop-filter:
-blur(30px)
-saturate(180%);
-
-border:
-1px solid rgba(255,255,255,.14);
-
-box-shadow:
-
-0 10px 40px rgba(0,0,0,.35),
-
-inset 0 1px 1px rgba(255,255,255,.18);
-
-color:white;
-
-font-size:38px;
-
-font-weight:300;
-
-cursor:pointer;
-
-z-index:999;
-
-}
-
-#funPopup{
-
-position:fixed;
-
-left:50%;
-bottom:120px;
-
-transform:
-translateX(-50%)
-translateY(20px);
-
-padding:18px 26px;
-
-border-radius:28px;
-
-background:
-rgba(255,255,255,.10);
-
-backdrop-filter:
-blur(40px);
-
-border:
-1px solid rgba(255,255,255,.14);
-
-color:white;
-
-font-size:16px;
-
-font-weight:600;
-
-opacity:0;
-
-pointer-events:none;
-
-transition:.35s;
-
-z-index:998;
-
-}
-
-#funPopup.show{
-
-opacity:1;
-
-transform:
-translateX(-50%)
-translateY(0);
-
-}
-
-.footer-glass{
-
-width:100%;
-
-text-align:center;
-
-margin-top:22px;
-
-padding-bottom:
-max(10px, env(safe-area-inset-bottom));
-
-font-size:13px;
-
-font-weight:600;
-
-color:
-rgba(255,255,255,.35);
-
-}
-
-@media(max-width:480px){
-
-.kpi-row{
-grid-template-columns:1fr;
-}
-
-.hours-grid{
-grid-template-columns:1fr;
-}
-
-.title{
-font-size:26px;
-}
-
-.total .res-label,
-.total .res-val{
-font-size:26px;
-}
-
-}
-
-
-.auth-screen,.profile-screen,.history-screen{max-width:430px;width:100%}
-.hidden{display:none!important}
-.history-item{margin-top:10px;padding:12px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
-.small-btn{height:60px;font-size:20px}
 </style>
-
 </head>
-
 <body>
 
+<div class="bg"></div>
+<div class="bg"></div>
+<div class="bg"></div>
 
-<div id="authScreen" class="page auth-screen">
-<div class="panel">
-<h1 class="title">CASH КАЛЬКУЛЯТОР</h1>
-<div class="glass-block">
-<input id="regName" placeholder="Имя">
-<input id="regLast" placeholder="Фамилия">
-<button class="calc-btn small-btn" onclick="registerUser()">Регистрация</button>
-</div>
-<div class="glass-block">
-<input id="loginCode" placeholder="Код входа (6 цифр)">
-<button class="calc-btn small-btn" onclick="loginUser()">Войти</button>
-</div>
-</div>
-</div>
-
-<div id="profileScreen" class="page profile-screen hidden">
-<div class="panel">
-<h1 class="title">Профиль</h1>
-<div class="glass-block">
-<div id="profileName"></div>
-<div id="profileCode"></div>
-</div>
-<button class="calc-btn small-btn" onclick="openCalculator()">Открыть калькулятор</button>
-<button class="calc-btn small-btn" onclick="showHistory()">История расчётов</button>
-<button class="calc-btn small-btn" onclick="logout()">Выйти</button>
-</div>
-</div>
-
-<div id="historyScreen" class="page history-screen hidden">
-<div class="panel">
-<h1 class="title">История</h1>
-<div id="historyList"></div>
-<button class="calc-btn small-btn" onclick="backProfile()">Назад</button>
-</div>
-</div>
-
-<div class="page hidden" id="calculatorPage">
-
-<div class="panel">
-
-<h1 class="title">
-CASH КАЛЬКУЛЯТОР
-<span class="beta">БЛ</span>
-</h1>
-
-<div class="glass-block">
-
-<label class="big">
-Ставка / час
-</label>
-
-<input
-type="range"
-id="rateSlider"
-min="100"
-max="500"
-value="250"
-/>
-
-<div
-class="slider-value"
-id="rateValue"
->
-250 ₽
-</div>
-
-</div>
-
-<div class="glass-block">
-
-<label class="big">
-Премия
-</label>
-
-<input
-type="range"
-id="premiumSlider"
-min="100"
-max="500"
-value="250"
-/>
+<div class="app">
 
-<div
-class="slider-value"
-id="premiumValue"
->
-250 ₽
-</div>
+    <div class="header">
 
-</div>
+        <div class="logo">
 
-<div class="glass-block">
+            <div class="logo-icon">
+                🔊
+            </div>
 
-<label class="big">
-Формат точки
-</label>
+            <div>
+                <h1>Sonic</h1>
+                <span>Liquid Speaker Cleaner</span>
+            </div>
 
-<select id="format">
+        </div>
 
-<option value="BR">
-BR
-</option>
+        <div class="settings glass">
+            ⚙️
+        </div>
 
-<option value="MAU">
-MAU
-</option>
+    </div>
 
-</select>
+    <div class="hero glass">
 
-</div>
+        <div class="clean-wrap">
 
-<div class="glass-block hours-block">
+            <div class="cleaner" id="cleaner">
 
-<h3 class="hours-title">
-Часы
-</h3>
+                <div class="ring"></div>
+                <div class="ring"></div>
+                <div class="ring"></div>
 
-<div class="hours-grid">
+                <h2 id="btnText">CLEAN</h2>
 
-<div class="hours-col">
+            </div>
 
-<label>
-с обедом
-</label>
+        </div>
 
-<input
-id="hoursWith"
-type="number"
-placeholder="0"
-/>
+        <div class="waveform">
 
-</div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
 
-<div class="hours-col">
+        </div>
 
-<label>
-без обеда
-</label>
+        <div class="control">
 
-<input
-id="hoursWithout"
-type="number"
-placeholder="0"
-/>
+            <label>
+                <span>Frequency</span>
+                <span id="freqText">165Hz</span>
+            </label>
 
-</div>
+            <input
+                type="range"
+                min="0"
+                max="250"
+                value="165"
+                class="slider"
+                id="slider"
+            >
 
-<div class="hours-col">
+        </div>
 
-<label>
-дополнительные
-</label>
+        <div class="stats">
 
-<input
-id="hoursBuffer"
-type="number"
-placeholder="0"
-/>
+            <div class="stat glass">
+                <h3>98%</h3>
+                <p>Power</p>
+            </div>
 
-</div>
+            <div class="stat glass">
+                <h3>250Hz</h3>
+                <p>Boost</p>
+            </div>
 
-</div>
+            <div class="stat glass">
+                <h3>AI</h3>
+                <p>Smart Clean</p>
+            </div>
 
-<p class="hours-hint">
-брифы, обучение, праздничные и т.д.
-</p>
+        </div>
 
-</div>
+    </div>
 
-<h2 class="kpi-title">
-KPI
-</h2>
+    <div class="bottom">
 
-<p class="hint">
-Сумма весов KPI должна быть 100%
-</p>
+        <div class="modes">
 
-<div class="kpi-row">
+            <div class="mode glass">
+                <h4>Water Eject</h4>
+                <p>Удаление воды мощными импульсами.</p>
+            </div>
 
-<div class="glass-block kpi-block">
+            <div class="mode glass">
+                <h4>Deep Bass</h4>
+                <p>Глубокие низкие частоты.</p>
+            </div>
 
-<label class="kpi-label">
-KPI 1
-</label>
+            <div class="mode glass">
+                <h4>Ultra Sonic</h4>
+                <p>Максимальная вибрация динамика.</p>
+            </div>
 
-<div class="kpi-inputs">
+        </div>
 
-<input id="w1" type="number" placeholder="Вес %"/>
-<input id="v1" type="number" placeholder="% выполнения"/>
+        <div class="dock glass" id="dock">
 
-</div>
+            <div class="dock-item">🏠</div>
+            <div class="dock-item">🎵</div>
+            <div class="dock-item">⚡</div>
+            <div class="dock-item">💧</div>
 
-</div>
+        </div>
 
-<div class="glass-block kpi-block">
+    </div>
 
-<label class="kpi-label">
-KPI 2
-</label>
-
-<div class="kpi-inputs">
-
-<input id="w2" type="number" placeholder="Вес %"/>
-<input id="v2" type="number" placeholder="% выполнения"/>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="kpi-row">
-
-<div class="glass-block kpi-block">
-
-<label class="kpi-label">
-KPI 3
-</label>
-
-<div class="kpi-inputs">
-
-<input id="w3" type="number" placeholder="Вес %"/>
-<input id="v3" type="number" placeholder="% выполнения"/>
-
-</div>
-
-</div>
-
-<div class="glass-block kpi-block">
-
-<label class="kpi-label">
-KPI 4
-</label>
-
-<div class="kpi-inputs">
-
-<input id="w4" type="number" placeholder="Вес %"/>
-<input id="v4" type="number" placeholder="% выполнения"/>
-
-</div>
-
-</div>
-
-</div>
-
-<button
-class="calc-btn"
-onclick="calculate()"
->
-✦ Рассчитать
-</button>
-<button class="calc-btn small-btn" onclick="saveCalculation()">💾 Сохранить расчёт</button>
-
-<div class="result-block">
-
-<div class="result-row">
-<div class="res-label">Ставка/час</div>
-<div id="rate" class="res-val">—</div>
-</div>
-
-<div class="result-row">
-<div class="res-label">Оклад</div>
-<div id="oklad" class="res-val">—</div>
-</div>
-
-<div class="result-row">
-<div class="res-label">Бонус</div>
-<div id="bonus" class="res-val">—</div>
-</div>
-
-<div class="result-row total">
-<div class="res-label">Итого</div>
-<div id="total" class="res-val">—</div>
-</div>
-
-</div>
-
-</div>
-
-<div class="footer-glass">
-СПИЗДИЛ КОД У САРАТОВА EGORKIN
-</div>
-
-</div>
-
-<button id="funBtn">
-＋
-</button>
-
-<div id="funPopup">
-Пошел нахуй один долбоеб клиент.
 </div>
 
 <script>
 
-const rateSlider =
-document.getElementById('rateSlider');
+/* AUDIO */
 
-const premiumSlider =
-document.getElementById('premiumSlider');
+let audioContext;
+let oscillator;
+let gainNode;
+let playing = false;
 
-const rateValue =
-document.getElementById('rateValue');
+const cleaner = document.getElementById('cleaner');
+const btnText = document.getElementById('btnText');
 
-const premiumValue =
-document.getElementById('premiumValue');
+const slider = document.getElementById('slider');
+const freqText = document.getElementById('freqText');
 
-function fmtMoney(n){
-return Number(n).toFixed(2)+' ₽';
-}
+slider.addEventListener('input',()=>{
 
-function normalizeKPIraw(raw){
+    freqText.innerText =
+        slider.value + 'Hz';
 
-const v = parseFloat(raw);
+    slider.style.background =
+        `linear-gradient(
+            90deg,
+            #60a5fa ${slider.value / 2.5}%,
+            rgba(255,255,255,.08) ${slider.value / 2.5}%
+        )`;
 
-if(isNaN(v)) return null;
-if(v < 80) return 0;
-if(v >= 80 && v < 90) return 60;
-if(v >= 90 && v < 100) return 80;
-if(v === 100) return 100;
-
-if(v > 100){
-
-const over = v - 100;
-
-return Math.min(
-100 + over * 2.5,
-125
-);
-
-}
-
-return null;
-
-}
-
-function calculate(){
-
-const baseRate =
-parseFloat(rateSlider.value);
-
-const premiumRate =
-parseFloat(premiumSlider.value);
-
-const format =
-document.getElementById('format').value;
-
-const hw =
-parseFloat(document.getElementById('hoursWith').value) || 0;
-
-const hwo =
-parseFloat(document.getElementById('hoursWithout').value) || 0;
-
-const buffer =
-parseFloat(document.getElementById('hoursBuffer').value) || 0;
-
-const rate =
-format === 'MAU'
-? baseRate * 1.10
-: baseRate;
-
-const oklad =
-rate * (hw + buffer);
-
-const bonusHour =
-premiumRate;
-
-const baseBonus =
-bonusHour * hwo;
-
-let bonus =
-baseBonus;
-
-const used = [];
-
-for(let i=1;i<=4;i++){
-
-const w =
-parseFloat(document.getElementById('w'+i).value);
-
-const v =
-parseFloat(document.getElementById('v'+i).value);
-
-if(!isNaN(w)||!isNaN(v)){
-
-used.push({
-
-w:isNaN(w)?0:w,
-v:isNaN(v)?0:v
+    if(oscillator){
+        oscillator.frequency.value =
+            slider.value;
+    }
 
 });
 
-}
+function startSound(){
+
+    audioContext =
+        new(window.AudioContext || window.webkitAudioContext)();
+
+    oscillator =
+        audioContext.createOscillator();
+
+    gainNode =
+        audioContext.createGain();
+
+    oscillator.type = 'sine';
+
+    oscillator.frequency.value =
+        slider.value;
+
+    gainNode.gain.value = .2;
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.start();
 
 }
 
-if(used.length > 0){
+function stopSound(){
 
-const sumW =
-used.reduce((s,it)=>s+it.w,0);
-
-const normalized =
-sumW === 0
-? used.map(()=>100/used.length)
-: used.map(it=>(it.w/sumW)*100);
-
-bonus = 0;
-
-for(let i=0;i<used.length;i++){
-
-const nRaw =
-normalizeKPIraw(used[i].v);
-
-const coefficient =
-nRaw === null
-? 0
-: nRaw / 100;
-
-bonus +=
-(baseBonus / 100)
-*
-normalized[i]
-*
-coefficient;
+    oscillator.stop();
 
 }
 
-}
+cleaner.addEventListener('click',()=>{
 
-const total =
-oklad + bonus;
+    if(!playing){
 
-document.getElementById('rate').textContent =
-fmtMoney(rate);
+        startSound();
 
-document.getElementById('oklad').textContent =
-fmtMoney(oklad);
+        cleaner.classList.add('active');
 
-document.getElementById('bonus').textContent =
-fmtMoney(bonus);
+        btnText.innerText = 'STOP';
 
-document.getElementById('total').textContent =
-fmtMoney(total);
+        navigator.vibrate?.([100,50,100]);
 
-rateValue.textContent =
-baseRate + ' ₽';
+        playing = true;
 
-premiumValue.textContent =
-premiumRate + ' ₽';
+    }else{
 
-lastCalculation={
-date:new Date().toLocaleString(),
-total:fmtMoney(total),
-rate:rate,
-oklad:oklad,
-bonus:bonus
-};
+        stopSound();
 
-}
+        cleaner.classList.remove('active');
 
-document.querySelectorAll(
-'input,select'
-).forEach(el=>{
+        btnText.innerText = 'CLEAN';
 
-el.addEventListener('input',calculate);
-el.addEventListener('change',calculate);
+        playing = false;
+
+    }
 
 });
 
-calculate();
+/* PARALLAX */
 
-const funBtn =
-document.getElementById('funBtn');
+document.addEventListener('mousemove',(e)=>{
 
-const funPopup =
-document.getElementById('funPopup');
+    const x =
+        (window.innerWidth / 2 - e.pageX) / 35;
 
-funBtn.addEventListener(
-'click',
-()=>{
+    const y =
+        (window.innerHeight / 2 - e.pageY) / 35;
 
-funPopup.classList.add('show');
+    cleaner.style.transform =
+        `rotateY(${x}deg) rotateX(${-y}deg)`;
 
-setTimeout(()=>{
-
-funPopup.classList.remove('show');
-
-},2000);
-
-}
-);
-
-
-let currentUser=null;
-let lastCalculation=null;
-
-function generateCode(){
- return Math.floor(100000+Math.random()*900000).toString();
-}
-
-function registerUser(){
- const first=document.getElementById('regName').value.trim();
- const last=document.getElementById('regLast').value.trim();
- if(!first||!last){alert('Введите имя и фамилию');return;}
- let code=generateCode();
- while(localStorage.getItem('user_'+code)){code=generateCode();}
- const user={first,last,code,history:[]};
- localStorage.setItem('user_'+code,JSON.stringify(user));
- alert('Сохраните код входа: '+code);
- loginByCode(code);
-}
-
-function loginUser(){
- loginByCode(document.getElementById('loginCode').value.trim());
-}
-
-function loginByCode(code){
- const raw=localStorage.getItem('user_'+code);
- if(!raw){alert('Пользователь не найден');return;}
- currentUser=code;
- localStorage.setItem('activeUser',code);
- const user=JSON.parse(raw);
-
- document.getElementById('authScreen').classList.add('hidden');
- document.getElementById('profileScreen').classList.remove('hidden');
- document.getElementById('calculatorPage').classList.add('hidden');
- document.getElementById('profileName').textContent=user.first+' '+user.last;
- document.getElementById('profileCode').textContent='Код: '+user.code;
-}
-
-function openCalculator(){
- document.getElementById('profileScreen').classList.add('hidden');
- document.getElementById('calculatorPage').classList.remove('hidden');
-}
-
-function backProfile(){
- document.getElementById('historyScreen').classList.add('hidden');
- document.getElementById('profileScreen').classList.remove('hidden');
-}
-
-function showHistory(){
- const user=JSON.parse(localStorage.getItem('user_'+currentUser));
- document.getElementById('profileScreen').classList.add('hidden');
- document.getElementById('historyScreen').classList.remove('hidden');
- const box=document.getElementById('historyList');
- box.innerHTML='';
- if(user.history.length===0){box.innerHTML='<div class="glass-block">История пуста</div>';return;}
- [...user.history].reverse().forEach(h=>{
-   box.innerHTML += `<div class="history-item"><b>${h.total}</b><br>${h.date}</div>`;
- });
-}
-
-function saveCalculation(){
- if(!currentUser){alert('Войдите в аккаунт');return;}
- if(!lastCalculation){alert('Сначала выполните расчёт');return;}
- const user=JSON.parse(localStorage.getItem('user_'+currentUser));
- user.history.push(lastCalculation);
- localStorage.setItem('user_'+currentUser,JSON.stringify(user));
- alert('Расчёт сохранён');
-}
-
-function logout(){
- localStorage.removeItem('activeUser');
- location.reload();
-}
-
-window.addEventListener('load',()=>{
- const active=localStorage.getItem('activeUser');
- if(active){loginByCode(active);}
 });
+
+/* LIQUID DOCK */
+
+const dock =
+    document.getElementById('dock');
+
+dock.addEventListener('mousemove',(e)=>{
+
+    const rect =
+        dock.getBoundingClientRect();
+
+    const x =
+        e.clientX - rect.left;
+
+    dock.style.setProperty(
+        '--x',
+        `${x}px`
+    );
+
+});
+
+/* hue animation */
+
+let hue = 0;
+
+setInterval(()=>{
+
+    hue += .15;
+
+    document.body.style.filter =
+        `hue-rotate(${hue}deg)`;
+
+},40);
 
 </script>
 
