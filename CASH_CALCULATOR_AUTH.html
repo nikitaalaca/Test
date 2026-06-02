@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASH КАЛЬКУЛЯТОР + Авторизация</title>
+<style>
+body{font-family:Arial,sans-serif;background:#081120;color:#fff;max-width:700px;margin:auto;padding:20px}
+.card{background:rgba(255,255,255,.08);padding:20px;border-radius:20px;margin:15px 0}
+input,button,select{width:100%;padding:12px;margin:6px 0;border-radius:10px;border:none}
+button{cursor:pointer}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<div id="auth" class="card">
+<h2>CASH КАЛЬКУЛЯТОР</h2>
+<button onclick="showRegister()">Регистрация</button>
+<button onclick="showLogin()">Вход</button>
+</div>
+
+<div id="register" class="card hidden">
+<h3>Регистрация</h3>
+<input id="firstName" placeholder="Имя">
+<input id="lastName" placeholder="Фамилия">
+<button onclick="registerUser()">Создать аккаунт</button>
+</div>
+
+<div id="login" class="card hidden">
+<h3>Вход</h3>
+<input id="loginCode" placeholder="Код доступа">
+<button onclick="loginUser()">Войти</button>
+</div>
+
+<div id="profile" class="card hidden">
+<h2 id="profileName"></h2>
+<p>Код: <span id="profileCode"></span></p>
+<button onclick="openCalc()">Открыть калькулятор</button>
+<button onclick="logout()">Выйти</button>
+<h3>История расчетов</h3>
+<div id="history"></div>
+</div>
+
+<div id="calc" class="card hidden">
+<h2>Калькулятор</h2>
+<input id="amount" type="number" placeholder="Введите сумму">
+<button onclick="calculate()">Рассчитать</button>
+<div id="result">—</div>
+<button onclick="saveCalculation()">Сохранить расчет</button>
+</div>
+
+<script>
+let currentUser=null;
+let lastCalculation=null;
+
+function showRegister(){
+document.getElementById('auth').classList.add('hidden');
+document.getElementById('register').classList.remove('hidden');
+}
+
+function showLogin(){
+document.getElementById('auth').classList.add('hidden');
+document.getElementById('login').classList.remove('hidden');
+}
+
+function registerUser(){
+const first=document.getElementById('firstName').value;
+const last=document.getElementById('lastName').value;
+
+if(!first||!last){alert('Заполните поля');return;}
+
+const code=Math.floor(100000+Math.random()*900000).toString();
+
+const user={first,last,code,history:[]};
+
+localStorage.setItem('user_'+code,JSON.stringify(user));
+localStorage.setItem('activeUser',code);
+
+alert('Сохраните код: '+code);
+
+loadProfile(code);
+}
+
+function loginUser(){
+const code=document.getElementById('loginCode').value;
+const user=localStorage.getItem('user_'+code);
+
+if(!user){alert('Пользователь не найден');return;}
+
+localStorage.setItem('activeUser',code);
+loadProfile(code);
+}
+
+function loadProfile(code){
+const user=JSON.parse(localStorage.getItem('user_'+code));
+
+currentUser=code;
+
+document.getElementById('register').classList.add('hidden');
+document.getElementById('login').classList.add('hidden');
+document.getElementById('auth').classList.add('hidden');
+document.getElementById('profile').classList.remove('hidden');
+
+document.getElementById('profileName').textContent=user.first+' '+user.last;
+document.getElementById('profileCode').textContent=user.code;
+
+renderHistory();
+}
+
+function renderHistory(){
+const user=JSON.parse(localStorage.getItem('user_'+currentUser));
+const box=document.getElementById('history');
+
+box.innerHTML='';
+
+user.history.slice().reverse().forEach(h=>{
+box.innerHTML+=`<div class="card">Дата: ${h.date}<br>Итого: ${h.total}</div>`;
+});
+}
+
+function openCalc(){
+document.getElementById('calc').classList.remove('hidden');
+}
+
+function calculate(){
+const value=Number(document.getElementById('amount').value||0);
+const total=value*1.1;
+
+document.getElementById('result').innerHTML='Итого: '+total.toFixed(2)+' ₽';
+
+lastCalculation={
+date:new Date().toLocaleString(),
+total:total.toFixed(2)+' ₽'
+};
+}
+
+function saveCalculation(){
+if(!currentUser||!lastCalculation){return;}
+
+const user=JSON.parse(localStorage.getItem('user_'+currentUser));
+user.history.push(lastCalculation);
+
+localStorage.setItem('user_'+currentUser,JSON.stringify(user));
+
+renderHistory();
+alert('Сохранено');
+}
+
+function logout(){
+localStorage.removeItem('activeUser');
+location.reload();
+}
+
+window.onload=()=>{
+const active=localStorage.getItem('activeUser');
+if(active && localStorage.getItem('user_'+active)){
+loadProfile(active);
+}
+}
+</script>
+
+</body>
+</html>
